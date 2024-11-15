@@ -1,0 +1,15 @@
+---
+title: "About"
+image: profile_me.JPG
+about:
+  template: jolla
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/drscotthawley
+---
+
+In this blog I will be writing
+
+
+
