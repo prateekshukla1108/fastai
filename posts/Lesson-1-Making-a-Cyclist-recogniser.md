@@ -11,7 +11,6 @@ categories:
 
 ---
 
-
 The evolution of Machine Learning has transformed from a concept once deemed nearly impossible to a technology that is now easily accessible and widely utilized. It was considered so ridiculous in the early days that people joked about it. Here is one example:
 
 ![[Pasted image 20241114101034.png]]
@@ -22,7 +21,7 @@ Above is an xkcd comic which shows how people joked about it. The good news is t
 # The Evolution of Neural networks
 ## Before Neural Networks
 
-In the era before neural networks, people used a lot of workforce to identify images, then many mathematicians and computer scientists to process those images and create separate features for each one of them. After a lot of time and processing, they would fit it into a machine learning model. It became successful, but the problem was that making these models took a lot of time and energy, which was inefficient and tedious.
+In the era before neural networks, people used a lot of workforce to identify images, then many mathematicians and computer scientists to process those images and create separate features for each one of them. After a lot of time and processing, they would fit it into a machine learning model. It became successful, but the problem was that making these models took a lot of time and energy, which was inefficient and tedious. 
 
 ## The first neural network
 
@@ -35,14 +34,14 @@ Now a model will not do anything useful unless these weights are carefully chose
 We then take the inputs and weights put them in our model and get the results. The we decide how good they are, this is done by a number called loss. Loss describe how good the results are, think of it as something like accuracy. After we get loss we use it to update our weights and then repeat this process again and again, we get better and better results.
 
 Once we do this enough times we stop putting inputs and weights and replace it with inputs and get some outputs.
-## How Modern Neural Networks Work
+## How Modern Neural Networks Work 
 With modern neural network methods, we don't teach the model features; we make them learn features. It is done by breaking the image into small parts and assigning them features (often called layer 1 features). After doing this for many images, we combine them to create more advanced features. So we train the basic neural network and make it a more advanced neural network, creating a kind of feature detector that finds the related features.
 
-Coding these features would be very difficult, and many times you wouldn't even know what to code. This is how we make neural networks more efficient by not making them by code but by making them learn.
+Coding these features would be very difficult, and many times you wouldn't even know what to code. This is how we make neural networks more efficient by not making them by code but by making them learn. 
 
 ## Misconceptions About Deep Learning
 
-As we saw earlier, to train a computer vision model, we didn't need expensive computers, we didn't need very high-level math, and we didn't need lots of data. This is the case with much of deep learning which we will learn. There will be some math that will be needed but mostly, either we will teach you the little bits, or we will refer you to some resources.
+As we saw earlier, to train a computer vision model, we didn't need expensive computers, we didn't need very high-level math, and we didn't need lots of data. This is the case with much of deep learning which we will learn. There will be some math that will be needed but mostly, either we will teach you the little bits, or we will refer you to some resources. 
 
 ## PyTorch vs TensorFlow
 
@@ -50,11 +49,11 @@ In recent years, PyTorch is increasingly used in research while TensorFlow is de
 
 Another thing to note is that sometimes PyTorch uses a lot of code for some really basic tasks, and this is where fastai comes into play. The operations which are really lengthy to implement in PyTorch can be done with very few lines of code with fastai. This is not because PyTorch is bad but because PyTorch is designed so that many good things can be built on top of it.
 
-The problem with having lots of code is that it increases the chances of mistakes. In fastai, the code you don't write is code that the developers have found best practices for and implemented for you.
+The problem with having lots of code is that it increases the chances of mistakes. In fastai, the code you don't write is code that the developers have found best practices for and implemented for you. 
 
 ## Jupyter Notebook
 
-Jupyter notebook is a web-based application which is widely used in academia and teaching, and it is a very powerful tool to experiment, explore, and build with.
+Jupyter notebook is a web-based application which is widely used in academia and teaching, and it is a very powerful tool to experiment, explore, and build with. 
 
 Nowadays, most people don't run Jupyter notebooks on their own local machines but on cloud servers. If you go to course.fast.ai, you can see how to use Jupyter and cloud servers. One of the good ones is Kaggle. Kaggle doesn't only have competitions but also has cloud servers where you can train neural networks. You can learn more about it at https://course.fast.ai/Resources/kaggle.html.
 
@@ -173,7 +172,7 @@ Let's discuss these one by one:
 
 The first thing that we tell fastai is what kind of input we have. This is defined by `blocks`. Here the input is Image, therefore we set blocks to `ImageBlock`. To find all the inputs to our model, we run `get_image_files` (function which returns all image files in a path).
 
-We used the same function earlier to remove all the corrupted images.
+We used the same function earlier to remove all the corrupted images. 
 
 Now it is important to put aside some data to test the accuracy of our model. It is so critical to do so that fastai won't let you train a model without that information. How much data is going to be set aside is determined by `RandomSplitter`. (In our case, we are randomly setting aside 20% of data for our validation set).
 
@@ -189,7 +188,7 @@ Note: You can learn more about these functions by going to the tutorials and doc
 
 ## Model Training
 
-Here we will train our model with resnet18. In fastai, a learner is something which combines our neural net and the data we train it with.
+Here we will train our model with resnet18. In fastai, a learner is something which combines our neural net and the data we train it with. 
 ```python
 learn = vision_learner(dls, resnet18, metrics=error_rate)
 learn.fine_tune(3)
@@ -203,7 +202,7 @@ It will usually take about a minute or two if you use only CPU, but it can take 
 
 `learn.fine_tune` takes those pre-trained weights and adjusts them to teach the model the differences between your datasets and what it was originally trained for. This method is called **fine tuning**.
 
-You can get different architectures from https://timm.fast.ai/
+You can get different architectures from https://timm.fast.ai/ 
 
 ## Prediction
 ```python
@@ -220,7 +219,7 @@ Finally:
 
 In above example we say the uses of deep learning for image classification. Now we will see another beautiful example. This is called Segmentation.
 
-Segmentation where we take photos and we color every pixel to identify different components of the image.
+Segmentation where we take photos and we color every pixel to identify different components of the image. 
 
 ```python
 # Import all functions and classes from fastcore and fastai.vision libraries
@@ -271,5 +270,10 @@ This displays a grid showing the original images, their true segmentation masks,
 
 # The Future of deep learning
 
-If there is something that a human can do pretty quickly even it needs to be an expert then deep learning will be go at it. If it is something that takes a lot of logical thought process in an extended period of time then Deep learning will not be able to do it perfectly.
+If there is something that a human can do pretty quickly even it needs to be an expert then deep learning will be go at it. If it is something that takes a lot of logical thought process in an extended period of time then Deep learning will not be able to do it perfectly. 
 
+Remember: The best time to start learning machine learning was yesterday. The second best time is now. So what are you waiting for? Let's teach some computers to see! 🚀
+
+---
+
+_P.S. No neural networks were harmed in the making of this blog post. They were just mildly confused._
