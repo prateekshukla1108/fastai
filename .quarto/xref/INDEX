@@ -1,8 +1,11 @@
 {
-  "index.qmd": {
-    "index.html": "04828955"
+  "posts/Lesson-1-Making-a-Cyclist-recogniser.md": {
+    "Lesson-1-Making-a-Cyclist-recogniser.html": "1f380e88"
   },
   "about.qmd": {
-    "about.html": "9b1838d9"
+    "about.html": "01947a32"
+  },
+  "index.qmd": {
+    "index.html": "e0a453a9"
   }
 }

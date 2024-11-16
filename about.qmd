@@ -1,0 +1,14 @@
+---
+title: "About"
+image: profile_me.JPG
+about:
+  template: jolla
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/prateekshukla1108
+---
+
+The purpose of this blog is to create a place where fastAI learners can come and follow along while watching the lecture
+
+
