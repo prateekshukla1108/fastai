@@ -7,7 +7,7 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/drscotthawley
+        href: https://github.com/prateekshukla1108.github.io
 format:
   html:
     theme: darkly
