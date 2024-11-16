@@ -189,10 +189,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-enable-wsl" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-enable-wsl">Step 1: Enable WSL:</h2>
 <p><strong>Open PowerShell as Administrator</strong>: Search for “PowerShell” in the Start menu. Right-click on it and select “Run as administrator”. If you get intimidated by the black screen don’t panik you are inside terminal which helps us to execute commands. More on it later! <strong>Run the Installation Command</strong>: In the PowerShell window, type the following command and press Enter</p>
-<pre><code>wsl --install</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--install</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This command will enable all the necessary features for WSL, download the Linux Kernel, and install Ubuntu as your default distribution. A restart may be required.</p>
 <p>If ubuntu is not your cup of tea then you can choose another distribution by</p>
-<pre><code>wsl --install -d Debian</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--install</span> <span class="at">-d</span> Debian</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>for debian</p>
 </section>
 <section id="step-2-make-a-user-account" class="level2">
@@ -203,8 +203,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-4-update-the-system" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-update-the-system">Step 4: Update the system</h2>
 <p>Now that you’ve got your Linux environment set up, let’s make sure it’s up to date: you can do that by just typing</p>
-<pre><code>sudo apt update
-sudo apt upgrade</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt upgrade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="terminal-and-cli" class="level1">
@@ -235,18 +235,18 @@ sudo apt upgrade</code></pre>
 <section id="step-1-install-wget-in-you-system" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-install-wget-in-you-system">Step 1: Install wget in you system</h2>
 <p>you can do so by executing -</p>
-<pre><code>sudo apt install wget</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install wget</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="step-2-download-the-setup-script-for-miniforge" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-download-the-setup-script-for-miniforge">Step 2: Download the setup script for miniforge</h2>
 <p>you can do that by following these commands</p>
 <section id="for-x86_64" class="level3">
 <h3 class="anchored" data-anchor-id="for-x86_64">for x86_64</h3>
-<pre><code>wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="for-arm" class="level3">
 <h3 class="anchored" data-anchor-id="for-arm">for arm</h3>
-<pre><code>wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>this will download the Miniforge installer in your WSL</p>
 </section>
 </section>
@@ -255,11 +255,11 @@ sudo apt upgrade</code></pre>
 <p>execute the following command -</p>
 <section id="for-x86_64-1" class="level3">
 <h3 class="anchored" data-anchor-id="for-x86_64-1">For x86_64</h3>
-<pre><code>bash Miniforge3-Linux-x86_64.sh</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniforge3-Linux-x86_64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="for-arm-1" class="level3">
 <h3 class="anchored" data-anchor-id="for-arm-1">For Arm</h3>
-<pre><code>bash Miniforge3-Linux-aarch64.sh</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniforge3-Linux-aarch64.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A simple setup will appear which will ask you to accept the licence agreement</p>
 <p>Then a prompt will appear telling you that setup will install miniforge in your home directory say yes to it</p>
 <p>And then miniforge will install not only python but a whole bunch of libraries which will come handy to us later.</p>
@@ -276,14 +276,14 @@ sudo apt upgrade</code></pre>
 <p>Mamba and Conda are both powerful tools used for package and environment management in Python. They install everything we need for python and help us create virtual environments. This brings us to - ## Step 5: Enable virtual environment</p>
 <p>A virtual environment is a self-contained directory that allows you to manage dependencies for different projects without stepping on each other’s toes. It will help seperate python we need with the system python</p>
 <p>To create a virtual environment just execute:</p>
-<pre><code>mamba create -n fastai_env python=3.9</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> fastai_env python=3.9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>this will create a python virtual environment</p>
 <p>but that’s not all we also need to activate it for it to work this is done by executing</p>
-<pre><code>mamba activate fastai_env</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate fastai_env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>A pro tip - You can activate the virtual environment everytime you want by putting it in your .bashrc file. You can do that by</li>
 </ul>
-<pre><code>nano .bashrc</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .bashrc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>this opens a text editor which we will use to edit files. Edit it by adding <code>mamba activate fastai_env</code> at the end of the file.</p>
 <p>then press ctrl + x to exit and y to save the file.</p>
 </section>
@@ -312,7 +312,7 @@ sudo apt upgrade</code></pre>
 </ol>
 <p>Basically they help is making the experiance smoother for the journey. ### Installation</p>
 <p>Here is the command to install these tools -</p>
-<pre><code>mamba install ipython jupyterlab nbdev</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install ipython jupyterlab nbdev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="step-7-install-pytorch" class="level2">
@@ -331,16 +331,16 @@ sudo apt upgrade</code></pre>
 <ul>
 <li>For devices with Nvidia GPU - if your device have an Nvidia GPU then you can install pytorch with CUDA support by executing following command -</li>
 </ul>
-<pre><code>mamba install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install pytorch torchvision torchaudio pytorch-cuda=11.8 <span class="at">-c</span> pytorch <span class="at">-c</span> nvidia</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You will also need to install the cuda toolkit for pytorch to work. You can do it by executing -</p>
 <pre><code>
 wget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/cuda_12.6.2_560.35.03_linux.run</code></pre>
 <p>Then run</p>
-<pre><code>sudo sh cuda_12.6.2_560.35.03_linux.run</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> sh cuda_12.6.2_560.35.03_linux.run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>For devices with integrated graphics - If you are poor student like me and have device with integrated graphics then you should install pytorch by using following command -</li>
 </ul>
-<pre><code>mamba install pytorch torchvision torchaudio cpuonly -c pytorch</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install pytorch torchvision torchaudio cpuonly <span class="at">-c</span> pytorch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="step-8-install-fastai" class="level2">
@@ -349,7 +349,7 @@ wget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/
 <section id="installation-1" class="level3">
 <h3 class="anchored" data-anchor-id="installation-1">Installation</h3>
 <p>To install it just execute this command in your terminal -</p>
-<pre><code>mamba install -c fastai fastai</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> fastai fastai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>And you have successfully installed the tools required for the course.</p>
 </section>
 </section>
@@ -367,18 +367,18 @@ wget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/
 <li><strong>Update Package List</strong>:
 <ul>
 <li><p>Before installing any software, update the package list by running:</p>
-<pre><code>sudo apt update</code></pre></li>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul></li>
 <li><strong>Install Vim</strong>:
 <ul>
 <li><p>Install Vim by executing the following command:</p>
-<pre><code>sudo apt install vim -y</code></pre></li>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install vim <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>This command retrieves and installs Vim along with its necessary components.</p></li>
 </ul></li>
 <li><strong>Launching Vim</strong>:
 <ul>
 <li><p>To create or edit a file, use the command:</p>
-<pre><code>vim filename.txt</code></pre></li>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vim</span> filename.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>Replace <code>filename.txt</code> with your desired file name. If the file does not exist, Vim will create it.</p></li>
 </ul></li>
 <li><strong>Basic Navigation and Editing</strong>:
@@ -409,11 +409,11 @@ wget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/
 <li><p><strong>Install Prerequisites</strong>:</p>
 <ul>
 <li><p>Update the package list and install the necessary packages (<code>make</code>, <code>git</code>, and <code>vim</code>) by running:</p>
-<pre><code>sudo apt update
-sudo apt install make git vim -y</code></pre></li>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install make git vim <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul></li>
 <li><p><strong>Install Ranger</strong>:</p>
-<pre><code>sudo apt install ranger -y</code></pre></li>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install ranger <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Configure Ranger</strong>:</p>
 <ul>
 <li><p>Run Ranger once to create the configuration directory:</p>
