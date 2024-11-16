@@ -13,7 +13,7 @@ categories:
 
 The evolution of Machine Learning has transformed from a concept once deemed nearly impossible to a technology that is now easily accessible and widely utilized. It was considered so ridiculous in the early days that people joked about it. Here is one example:
 
-![FastAI Logo](https://prateekshukla1108.github.io/fastai/images/xkcd.png)
+![XKCD comic from 2015](https://prateekshukla1108.github.io/fastai/posts/images/xkcd.png)
 
 Above is an xkcd comic which shows how people joked about it. The good news is that we are going to make a computer vision model in this lesson today. So get excited!
 
