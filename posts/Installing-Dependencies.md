@@ -2,7 +2,7 @@
 aliases:
 - Installing-Dependencies
 date: '2024-11-13'
-image: images/dependencies.jpg
+image: images/Python.png
 layout: post
 description: "Guide to install dependencies for fastAI."
 title: "How to setup WSL and Python for fastAI"
