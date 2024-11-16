@@ -12,7 +12,6 @@ categories:
 ---
 
 
-
 # How to install WSL in windows
 
 WSL implies for Windows Subsystem for Linux (WSL), where you can run a Linux environment on your Windows machine without the hassle of dual-booting or setting up a virtual machine. This guide will take you through the steps to install WSL, focusing on WSL 2, which is faster, better, and more compatible than its predecessor.
@@ -26,7 +25,7 @@ If you get any error related to virtualization. You need to have virtualization 
 **Open PowerShell as Administrator**: Search for "PowerShell" in the Start menu. Right-click on it and select "Run as administrator". If you get intimidated by the black screen don't panik you are inside terminal which helps us to execute commands. More on it later!
 **Run the Installation Command**: In the PowerShell window, type the following command and press Enter
 
-```
+```bash
 wsl --install
 ```
 
@@ -34,7 +33,7 @@ This command will enable all the necessary features for WSL, download the Linux 
 
 If ubuntu is not your cup of tea then you can choose another distribution by
 
-```
+```bash
 wsl --install -d Debian
 ```
 
@@ -50,7 +49,7 @@ You’ll be prompted to create a **username** and **password**. Choose wisely th
 ## Step 4: Update the system
 
 Now that you’ve got your Linux environment set up, let’s make sure it’s up to date: you can do that by just typing
-```
+```bash
 sudo apt update
 sudo apt upgrade
 ```
@@ -96,7 +95,7 @@ Here are the steps in setting up miniforge in your system -
 ## Step 1: Install wget in you system
 
 you can do so by executing -
-```
+```bash
 sudo apt install wget
 ```
 
@@ -106,13 +105,13 @@ you can do that by following these commands
 
 ### for x86_64
 
-```
+```bash
 wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 ```
 
 ### for arm
 
-```
+```bash
 wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
 ```
 
@@ -123,13 +122,13 @@ this will download the Miniforge installer in your WSL
 execute the following command -
 
 ### For x86_64
-```
+```bash
 bash Miniforge3-Linux-x86_64.sh
 ```
 
 ### For Arm
 
-```
+```bash
 bash Miniforge3-Linux-aarch64.sh
 ```
 
@@ -157,7 +156,7 @@ A virtual environment is a self-contained directory that allows you to manage de
 
 To create a virtual environment just execute:
 
-```
+```bash
 mamba create -n fastai_env python=3.9
 ```
 
@@ -165,13 +164,13 @@ this will create a python virtual environment
 
 but that's not all we also need to activate it for it to work this is done by executing
 
-```
+```bash
 mamba activate fastai_env
 ```
 
 - A pro tip - You can activate the virtual environment everytime you want by putting it in your .bashrc file. You can do that by
 
-```
+```bash
 nano .bashrc
 ```
 
@@ -211,7 +210,7 @@ Basically they help is making the experiance smoother for the journey.
 
 Here is the command to install these tools -
 
-```
+```bash
 mamba install ipython jupyterlab nbdev
 ```
 
@@ -232,7 +231,7 @@ Here is how to get it installed -
 
 - For devices with Nvidia GPU - if your device have an Nvidia GPU then you can install pytorch with CUDA support by executing following command -
 
-```
+```bash
 mamba install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
 
@@ -245,7 +244,7 @@ wget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/
 
 Then run
 
-```
+```bash
 sudo sh cuda_12.6.2_560.35.03_linux.run
 ```
 
@@ -253,7 +252,7 @@ sudo sh cuda_12.6.2_560.35.03_linux.run
 
 - For devices with integrated graphics - If you are poor student like me and have device with integrated graphics then you should install pytorch by using following command -
 
-```
+```bash
 mamba install pytorch torchvision torchaudio cpuonly -c pytorch
 ```
 
@@ -265,7 +264,7 @@ Fast AI will be the main library we will be working with. It is designed to make
 
 To install it just execute this command in your terminal -
 
-```
+```bash
 mamba install -c fastai fastai
 ```
 
@@ -282,20 +281,20 @@ Vim is the most supereme cli text editor that one can use in linux. Here is how 
 
 2. **Update Package List**:
    - Before installing any software, update the package list by running:
-     ```
+     ```bash
      sudo apt update
      ```
 
 3. **Install Vim**:
    - Install Vim by executing the following command:
-     ```
+     ```bash
      sudo apt install vim -y
      ```
    - This command retrieves and installs Vim along with its necessary components.
 
 4. **Launching Vim**:
    - To create or edit a file, use the command:
-     ```
+     ```bash
      vim filename.txt
      ```
    - Replace `filename.txt` with your desired file name. If the file does not exist, Vim will create it.
@@ -323,14 +322,14 @@ To install and use Ranger, a VIM-inspired file manager, in Windows Subsystem for
 
 2. **Install Prerequisites**:
    - Update the package list and install the necessary packages (`make`, `git`, and `vim`) by running:
-     ```
+     ```bash
      sudo apt update
      sudo apt install make git vim -y
      ```
 
 3. **Install Ranger**:
 
-   ```
+   ```bash
    sudo apt install ranger -y
    ```
 
