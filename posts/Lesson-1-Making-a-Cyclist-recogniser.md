@@ -36,6 +36,7 @@ Now a model will not do anything useful unless these weights are carefully chose
 We then take the inputs and weights put them in our model and get the results. The we decide how good they are, this is done by a number called loss. Loss describe how good the results are, think of it as something like accuracy. After we get loss we use it to update our weights and then repeat this process again and again, we get better and better results.
 
 Once we do this enough times we stop putting inputs and weights and replace it with inputs and get some outputs.
+
 ## How Modern Neural Networks Work
 With modern neural network methods, we don't teach the model features; we make them learn features. It is done by breaking the image into small parts and assigning them features (often called layer 1 features). After doing this for many images, we combine them to create more advanced features. So we train the basic neural network and make it a more advanced neural network, creating a kind of feature detector that finds the related features.
 
