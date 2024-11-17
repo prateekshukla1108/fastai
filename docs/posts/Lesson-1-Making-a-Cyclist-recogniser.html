@@ -238,7 +238,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastdownload <span class="im">import</span> download_url</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>These lines import necessary libraries: - <code>DDGS</code>: DuckDuckGo search API for finding images - <code>fastcore</code>: Utility functions for deep learning - <code>fastdownload</code>: For downloading files from URLs - <code>fastai</code>: Deep learning library built on PyTorch - <code>time</code>: For time-related operations</p>
+<p>These lines import necessary libraries:</p>
+<ul>
+<li><code>DDGS</code>: DuckDuckGo search API for finding images</li>
+<li><code>fastcore</code>: Utility functions for deep learning</li>
+<li><code>fastdownload</code>: For downloading files from URLs</li>
+<li><code>fastai</code>: Deep learning library built on PyTorch</li>
+<li><code>time</code>: For time-related operations</li>
+</ul>
 <p>Note: You might get an error for duckduckgo_search while executing this part. Don’t panic - just go to the console and execute:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install duckduckgo-search</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will install duckduckgo-search in your notebook.</p>
@@ -247,7 +254,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="image-search-function">Image Search Function</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_images(keywords, max_images<span class="op">=</span><span class="dv">400</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> L(DDGS().images(keywords, max_results<span class="op">=</span>max_images)).itemgot(<span class="st">"image"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This function: - Takes search keywords and maximum number of images - Uses DuckDuckGo to search for images - Returns a list of image URLs - <code>L()</code> creates a fastai list - <code>itemgot("image")</code> extracts just the image URLs from the search results</p>
+<p>This function:</p>
+<ul>
+<li>Takes search keywords and maximum number of images</li>
+<li>Uses DuckDuckGo to search for images</li>
+<li>Returns a list of image URLs</li>
+<li><code>L()</code> creates a fastai list</li>
+<li><code>itemgot("image")</code> extracts just the image URLs from the search results</li>
+</ul>
 </section>
 <section id="initial-test-downloads" class="level2">
 <h2 class="anchored" data-anchor-id="initial-test-downloads">Initial Test Downloads</h2>
@@ -256,7 +270,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dest <span class="op">=</span> <span class="st">"pedestrians.jpg"</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>download_url(urls[<span class="dv">0</span>], dest, show_progress<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> Image.<span class="bu">open</span>(dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This section: - Searches for one pedestrian image - Downloads it as ‘pedestrians.jpg’ - Opens it to verify the download worked</p>
+<p>This section:</p>
+<ul>
+<li>Searches for one pedestrian image</li>
+<li>Downloads it as ‘pedestrians.jpg’</li>
+<li>Opens it to verify the download worked</li>
+</ul>
 <p>Now we all know that computers don’t understand images, but the good news is that computers can understand numbers, and all images are made up of pixels which contain information about the brightness of red, green, and blue colors. So every picture is just a collection of numbers representing the amount of red, green, and blue in each pixel.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>download_url(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    search_images(<span class="st">"Cyclist"</span>, max_images<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>], <span class="st">"cyclist.jpg"</span>, show_progress<span class="op">=</span><span class="va">False</span></span>
@@ -278,14 +297,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    download_images(dest, urls<span class="op">=</span>search_images(<span class="ss">f"</span><span class="sc">{</span>o<span class="sc">}</span><span class="ss"> photo"</span>))</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    resize_images(path <span class="op">/</span> o, max_size<span class="op">=</span><span class="dv">400</span>, dest<span class="op">=</span>path <span class="op">/</span> o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This loop: - Creates directories for each category - Downloads multiple images for each category - Adds “photo” to search terms for better results - Waits 5 seconds between searches to be polite to the search API - Resizes all images to a maximum size of 400 pixels</p>
+<p>This loop:</p>
+<ul>
+<li>Creates directories for each category</li>
+<li>Downloads multiple images for each category</li>
+<li>Adds “photo” to search terms for better results</li>
+<li>Waits 5 seconds between searches to be polite to the search API</li>
+<li>Resizes all images to a maximum size of 400 pixels</li>
+</ul>
 </section>
 <section id="image-verification" class="level2">
 <h2 class="anchored" data-anchor-id="image-verification">Image Verification</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>failed <span class="op">=</span> verify_images(get_image_files(path))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>failed.<span class="bu">map</span>(Path.unlink)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(failed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>These lines: - Check all downloaded images for corruption - Delete any corrupt images - Count how many images were removed</p>
+<p>These lines:</p>
+<ul>
+<li>Check all downloaded images for corruption</li>
+<li>Delete any corrupt images</li>
+<li>Count how many images were removed</li>
+</ul>
 </section>
 <section id="dataloader-creation" class="level2">
 <h2 class="anchored" data-anchor-id="dataloader-creation">DataLoader Creation</h2>
@@ -296,7 +327,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>[Resize(<span class="dv">192</span>, method<span class="op">=</span><span class="st">"squish"</span>)],</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>).dataloaders(path, bs<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This creates a FastAI DataBlock with: - Image inputs and category labels - 80/20 train/validation split - Directory names as labels - Images resized to 192x192 - Batch size of 10 (Number of images shown to check the data)</p>
+<p>This creates a FastAI DataBlock with:</p>
+<ul>
+<li>Image inputs and category labels</li>
+<li>80/20 train/validation split</li>
+<li>Directory names as labels</li>
+<li>Images resized to 192x192</li>
+<li>Batch size of 10 (Number of images shown to check the data)</li>
+</ul>
 <p>Let’s discuss these one by one:</p>
 <p>The first thing that we tell fastai is what kind of input we have. This is defined by <code>blocks</code>. Here the input is Image, therefore we set blocks to <code>ImageBlock</code>. To find all the inputs to our model, we run <code>get_image_files</code> (function which returns all image files in a path).</p>
 <p>We used the same function earlier to remove all the corrupted images.</p>
@@ -312,7 +350,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Here we will train our model with resnet18. In fastai, a learner is something which combines our neural net and the data we train it with.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>These lines: - Create a vision model using ResNet18 architecture. It’s like creating a baby AI, except it won’t keep you up at night (your debugging sessions will do that instead). - Fine-tune it for 3 epochs - Track error rate as the metric</p>
+<p>These lines:</p>
+<ul>
+<li>Create a vision model using ResNet18 architecture. It’s like creating a baby AI, except it won’t keep you up at night (your debugging sessions will do that instead).</li>
+<li>Fine-tune it for 3 epochs</li>
+<li>Track error rate as the metric</li>
+</ul>
 <p>It will usually take about a minute or two if you use only CPU, but it can take about 10 seconds if you train it on GPU. This difference is because someone has already trained it (pretraining) to recognize over 14 Million images over 20,000 different types, something called the ImageNet dataset. So you actually start with a network which can do a lot, and they made all these parameters available to download from the internet.</p>
 <p><code>learn.fine_tune</code> takes those pre-trained weights and adjusts them to teach the model the differences between your datasets and what it was originally trained for. This method is called <strong>fine tuning</strong>.</p>
 <p>You can get different architectures from https://timm.fast.ai/</p>
@@ -322,7 +365,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>is_cyclist, _, probs <span class="op">=</span> learn.predict(PILImage.create(<span class="st">'cyclist.jpg'</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"This is a: </span><span class="sc">{</span>is_cyclist<span class="sc">}</span><span class="ss">."</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Probability that it is cyclist: </span><span class="sc">{</span>probs[<span class="dv">0</span>]<span class="sc">:f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Finally: - Loads and predicts on a test image - Prints the predicted class - Shows the probability of the prediction</p>
+<p>Finally:</p>
+<ul>
+<li>Loads and predicts on a test image</li>
+<li>Prints the predicted class</li>
+<li>Shows the probability of the prediction</li>
+</ul>
 </section>
 </section>
 <section id="deep-learning-is-not-just-for-image-classification" class="level1">
@@ -343,7 +391,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    label_func <span class="op">=</span> <span class="kw">lambda</span> o: path<span class="op">/</span><span class="st">'labels'</span><span class="op">/</span><span class="ss">f'</span><span class="sc">{</span>o<span class="sc">.</span>stem<span class="sc">}</span><span class="ss">_P</span><span class="sc">{</span>o<span class="sc">.</span>suffix<span class="sc">}</span><span class="ss">'</span>,  <span class="co"># Function to find corresponding label file</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    codes <span class="op">=</span> np.loadtxt(path<span class="op">/</span><span class="st">'codes.txt'</span>, dtype<span class="op">=</span><span class="bu">str</span>)  <span class="co"># Load class names from codes.txt</span></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This creates a <code>DataLoader</code> specifically for segmentation tasks: - <code>bs=8</code> sets the batch size to 8 images - <code>get_image_files()</code> gets all image files from the images directory - The <code>label_func</code> is a lambda function that maps each image file to its corresponding label file by adding ’_P’ to the filename - <code>codes.txt</code> contains the names of segmentation classes (like ‘road’, ‘building’, etc.)</p>
+<p>This creates a <code>DataLoader</code> specifically for segmentation tasks:</p>
+<ul>
+<li><code>bs=8</code> sets the batch size to 8 images</li>
+<li><code>get_image_files()</code> gets all image files from the images directory</li>
+<li>The <code>label_func</code> is a lambda function that maps each image file to its corresponding label file by adding ’_P’ to the filename</li>
+<li><code>codes.txt</code> contains the names of segmentation classes (like ‘road’, ‘building’, etc.)</li>
+</ul>
 <div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a U-Net model with ResNet34 backbone</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> unet_learner(dls, resnet34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This creates a U-Net architecture (common for segmentation tasks) using ResNet34 as the backbone. U-Net is particularly effective for semantic segmentation because it combines detailed spatial information with deep features.</p>

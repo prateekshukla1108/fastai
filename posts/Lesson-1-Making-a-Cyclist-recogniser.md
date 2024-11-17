@@ -77,6 +77,7 @@ from fastai.vision.all import *
 ```
 
 These lines import necessary libraries:
+
 - `DDGS`: DuckDuckGo search API for finding images
 - `fastcore`: Utility functions for deep learning
 - `fastdownload`: For downloading files from URLs
@@ -98,6 +99,7 @@ def search_images(keywords, max_images=400):
 ```
 
 This function:
+
 - Takes search keywords and maximum number of images
 - Uses DuckDuckGo to search for images
 - Returns a list of image URLs
@@ -116,6 +118,7 @@ im = Image.open(dest)
 ```
 
 This section:
+
 - Searches for one pedestrian image
 - Downloads it as 'pedestrians.jpg'
 - Opens it to verify the download worked
@@ -146,6 +149,7 @@ for o in searches:
 ```
 
 This loop:
+
 - Creates directories for each category
 - Downloads multiple images for each category
 - Adds "photo" to search terms for better results
@@ -160,6 +164,7 @@ len(failed)
 ```
 
 These lines:
+
 - Check all downloaded images for corruption
 - Delete any corrupt images
 - Count how many images were removed
@@ -176,6 +181,7 @@ dls = DataBlock(
 ```
 
 This creates a FastAI DataBlock with:
+
 - Image inputs and category labels
 - 80/20 train/validation split
 - Directory names as labels
@@ -209,6 +215,7 @@ learn.fine_tune(3)
 ```
 
 These lines:
+
 - Create a vision model using ResNet18 architecture. It's like creating a baby AI, except it won't keep you up at night (your debugging sessions will do that instead).
 - Fine-tune it for 3 epochs
 - Track error rate as the metric
@@ -227,6 +234,7 @@ print(f"Probability that it is cyclist: {probs[0]:f}")
 ```
 
 Finally:
+
 - Loads and predicts on a test image
 - Prints the predicted class
 - Shows the probability of the prediction
@@ -262,6 +270,7 @@ dls = SegmentationDataLoaders.from_label_func(
 ```
 
 This creates a `DataLoader` specifically for segmentation tasks:
+
 - `bs=8` sets the batch size to 8 images
 - `get_image_files()` gets all image files from the images directory
 - The `label_func` is a lambda function that maps each image file to its corresponding label file by adding '_P' to the filename
