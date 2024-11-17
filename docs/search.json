@@ -4,105 +4,126 @@
     "href": "index.html",
     "title": "Prateek ShuklaDocumentation for fastAI course.",
     "section": "",
-    "text": "Making a Cyclist recognizer\n\n\n\n\n\n\ncomputer_usage\n\n\n\nDocumentation for lesson 1 of fastAI practical deep learning for coders.\n\n\n\n\n\nNov 15, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nHow to setup WSL and Python for fastAI\n\n\n\n\n\n\ncomputer_usage\n\n\n\nGuide to install dependencies for fastAI.\n\n\n\n\n\nNov 13, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "Lesson 1: Vision models and Fundamentals\n\n\n\n\n\n\ncomputer_usage\n\n\n\nDocumentation for lesson 1 of fastAI practical deep learning for coders.\n\n\n\n\n\nNov 15, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nHow to setup WSL and Python for fastAI\n\n\n\n\n\n\ncomputer_usage\n\n\n\nGuide to install dependencies for fastAI.\n\n\n\n\n\nNov 13, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "",
     "text": "The evolution of Machine Learning has transformed from a concept once deemed nearly impossible to a technology that is now easily accessible and widely utilized. It was considered so ridiculous in the early days that people joked about it. Here is one example:\nAbove is an xkcd comic which shows how people joked about it. The good news is that we are going to make a computer vision model in this lesson today. So get excited!"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#before-neural-networks",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#before-neural-networks",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Before Neural Networks",
     "text": "Before Neural Networks\nIn the era before neural networks, people used a lot of workforce to identify images, then many mathematicians and computer scientists to process those images and create separate features for each one of them. After a lot of time and processing, they would fit it into a machine learning model. It became successful, but the problem was that making these models took a lot of time and energy, which was inefficient and tedious."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#the-first-neural-network",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#the-first-neural-network",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "The first neural network",
-    "text": "The first neural network\nBack in 1957 a neural network was described as something like a program. So in a traditional program we have some inputs and then we put them in program which have functions, conditionals, loops etc and these give us the result.\nIn deep learning the program is replaced by Model and we now also have weights(Also called parameters) with inputs. The model is not anymore a bunch of conditionals and loops and things. In case of a neural network it is a mathematical function which takes the inputs, multiplies them together by the weights and adds them up. And it does that will all the sets of inputs. And thus a neural network is formed\nNow a model will not do anything useful unless these weights are carefully chosen, so we start by these weights being random. Initially these networks don’t do anything useful.\nWe then take the inputs and weights put them in our model and get the results. The we decide how good they are, this is done by a number called loss. Loss describe how good the results are, think of it as something like accuracy. After we get loss we use it to update our weights and then repeat this process again and again, we get better and better results.\nOnce we do this enough times we stop putting inputs and weights and replace it with inputs and get some outputs. ## How Modern Neural Networks Work With modern neural network methods, we don’t teach the model features; we make them learn features. It is done by breaking the image into small parts and assigning them features (often called layer 1 features). After doing this for many images, we combine them to create more advanced features. So we train the basic neural network and make it a more advanced neural network, creating a kind of feature detector that finds the related features.\nCoding these features would be very difficult, and many times you wouldn’t even know what to code. This is how we make neural networks more efficient by not making them by code but by making them learn."
+    "text": "The first neural network\nBack in 1957 a neural network was described as something like a program. So in a traditional program we have some inputs and then we put them in program which have functions, conditionals, loops etc and these give us the result."
+  },
+  {
+    "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#deep-learning-models",
+    "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#deep-learning-models",
+    "title": "Lesson 1: Vision models and Fundamentals",
+    "section": "Deep learning models",
+    "text": "Deep learning models\nIn deep learning the program is replaced by Model and we now also have weights(Also called parameters) with inputs. The model is not anymore a bunch of conditionals and loops and things. In case of a neural network it is a mathematical function which takes the inputs, multiplies them together by the weights and adds them up. And it does that will all the sets of inputs. And thus a neural network is formed\nNow a model will not do anything useful unless these weights are carefully chosen, so we start by these weights being random. Initially these networks don’t do anything useful.\nWe then take the inputs and weights put them in our model and get the results. The we decide how good they are, this is done by a number called loss. Loss describe how good the results are, think of it as something like accuracy. After we get loss we use it to update our weights and then repeat this process again and again, we get better and better results.\nOnce we do this enough times we stop putting inputs and weights and replace it with inputs and get some outputs. ## How Modern Neural Networks Work With modern neural network methods, we don’t teach the model features; we make them learn features. It is done by breaking the image into small parts and assigning them features (often called layer 1 features). After doing this for many images, we combine them to create more advanced features. So we train the basic neural network and make it a more advanced neural network, creating a kind of feature detector that finds the related features.\nCoding these features would be very difficult, and many times you wouldn’t even know what to code. This is how we make neural networks more efficient by not making them by code but by making them learn."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#misconceptions-about-deep-learning",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#misconceptions-about-deep-learning",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Misconceptions About Deep Learning",
     "text": "Misconceptions About Deep Learning\nAs we saw earlier, to train a computer vision model, we didn’t need expensive computers, we didn’t need very high-level math, and we didn’t need lots of data. This is the case with much of deep learning which we will learn. There will be some math that will be needed but mostly, either we will teach you the little bits, or we will refer you to some resources."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#pytorch-vs-tensorflow",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#pytorch-vs-tensorflow",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "PyTorch vs TensorFlow",
     "text": "PyTorch vs TensorFlow\nIn recent years, PyTorch is increasingly used in research while TensorFlow is declining in popularity. The library which is used in research is more likely to be used in industry; therefore, we will be using PyTorch for learning Deep Learning.\nAnother thing to note is that sometimes PyTorch uses a lot of code for some really basic tasks, and this is where fastai comes into play. The operations which are really lengthy to implement in PyTorch can be done with very few lines of code with fastai. This is not because PyTorch is bad but because PyTorch is designed so that many good things can be built on top of it.\nThe problem with having lots of code is that it increases the chances of mistakes. In fastai, the code you don’t write is code that the developers have found best practices for and implemented for you."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#jupyter-notebook",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#jupyter-notebook",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Jupyter Notebook",
     "text": "Jupyter Notebook\nJupyter notebook is a web-based application which is widely used in academia and teaching, and it is a very powerful tool to experiment, explore, and build with.\nNowadays, most people don’t run Jupyter notebooks on their own local machines but on cloud servers. If you go to course.fast.ai, you can see how to use Jupyter and cloud servers. One of the good ones is Kaggle. Kaggle doesn’t only have competitions but also has cloud servers where you can train neural networks. You can learn more about it at https://course.fast.ai/Resources/kaggle.html."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#import-statements",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#import-statements",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Import Statements",
     "text": "Import Statements\nfrom duckduckgo_search import DDGS\nfrom fastcore.all import *\nimport time\nimport json\nfrom fastdownload import download_url\nfrom fastai.vision.all import *\nThese lines import necessary libraries: - DDGS: DuckDuckGo search API for finding images - fastcore: Utility functions for deep learning - fastdownload: For downloading files from URLs - fastai: Deep learning library built on PyTorch - time: For time-related operations\nNote: You might get an error for duckduckgo_search while executing this part. Don’t panic - just go to the console and execute:\npip install duckduckgo-search\nThis will install duckduckgo-search in your notebook."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#image-search-function",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#image-search-function",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Image Search Function",
     "text": "Image Search Function\ndef search_images(keywords, max_images=400):\n    return L(DDGS().images(keywords, max_results=max_images)).itemgot(\"image\")\nThis function: - Takes search keywords and maximum number of images - Uses DuckDuckGo to search for images - Returns a list of image URLs - L() creates a fastai list - itemgot(\"image\") extracts just the image URLs from the search results"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#initial-test-downloads",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#initial-test-downloads",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Initial Test Downloads",
     "text": "Initial Test Downloads\nurls = search_images(\"pedestrians\", max_images=1)\nprint(urls[0])\ndest = \"pedestrians.jpg\"\ndownload_url(urls[0], dest, show_progress=False)\nim = Image.open(dest)\nThis section: - Searches for one pedestrian image - Downloads it as ‘pedestrians.jpg’ - Opens it to verify the download worked\nNow we all know that computers don’t understand images, but the good news is that computers can understand numbers, and all images are made up of pixels which contain information about the brightness of red, green, and blue colors. So every picture is just a collection of numbers representing the amount of red, green, and blue in each pixel.\ndownload_url(\n    search_images(\"Cyclist\", max_images=1)[0], \"cyclist.jpg\", show_progress=False\n)\nImage.open(\"cyclist.jpg\").to_thumb(256, 256)\n\nWe are now downloading the test image\nOur model will predict if this image is an image of cyclists\nCreates a 256x256 thumbnail version"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#dataset-creation",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#dataset-creation",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Dataset Creation",
     "text": "Dataset Creation\nsearches = [\"Cyclists\", \"Pedestrians\"]\npath = Path(\"pedestrians_or_cyclists\")\nfor o in searches:\n    dest = path / o\n    dest.mkdir(exist_ok=True, parents=True)\n    download_images(dest, urls=search_images(f\"{o} photo\"))\n    time.sleep(5)\n    resize_images(path / o, max_size=400, dest=path / o)\nThis loop: - Creates directories for each category - Downloads multiple images for each category - Adds “photo” to search terms for better results - Waits 5 seconds between searches to be polite to the search API - Resizes all images to a maximum size of 400 pixels"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#image-verification",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#image-verification",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Image Verification",
     "text": "Image Verification\nfailed = verify_images(get_image_files(path))\nfailed.map(Path.unlink)\nlen(failed)\nThese lines: - Check all downloaded images for corruption - Delete any corrupt images - Count how many images were removed"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#dataloader-creation",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#dataloader-creation",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "DataLoader Creation",
     "text": "DataLoader Creation\ndls = DataBlock(\n    blocks=(ImageBlock, CategoryBlock),\n    get_items=get_image_files,\n    splitter=RandomSplitter(valid_pct=0.2, seed=42),\n    get_y=parent_label,\n    item_tfms=[Resize(192, method=\"squish\")],\n).dataloaders(path, bs=10)\nThis creates a FastAI DataBlock with: - Image inputs and category labels - 80/20 train/validation split - Directory names as labels - Images resized to 192x192 - Batch size of 10 (Number of images shown to check the data)\nLet’s discuss these one by one:\nThe first thing that we tell fastai is what kind of input we have. This is defined by blocks. Here the input is Image, therefore we set blocks to ImageBlock. To find all the inputs to our model, we run get_image_files (function which returns all image files in a path).\nWe used the same function earlier to remove all the corrupted images.\nNow it is important to put aside some data to test the accuracy of our model. It is so critical to do so that fastai won’t let you train a model without that information. How much data is going to be set aside is determined by RandomSplitter. (In our case, we are randomly setting aside 20% of data for our validation set).\nNext, we tell fastai the way to know the correct label of the photo. We do this with the get_y function. This function tells it to take the label of the photo from its parent directory (the directory in which the photo is stored).\nAll computer vision architectures need all of the input to be the same size. By using item_tfms, we are resizing every image to be (192,192) each, and the method of resize is going to be ‘squish’. You can also crop it from the middle.\nWith the help of dataloaders, PyTorch can grab a lot of your data at one time, and this is done quickly using a GPU which can do a thousand things at once. So dataloader will feed the image model with a lot of data that is provided to it at once. We call these images a batch.\nbs=10 will show 10 images from the data it is feeding to the algorithm with labels.\nNote: You can learn more about these functions by going to the tutorials and documentation of fastai."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#model-training",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#model-training",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Model Training",
-    "text": "Model Training\nHere we will train our model with resnet18. In fastai, a learner is something which combines our neural net and the data we train it with.\nlearn = vision_learner(dls, resnet18, metrics=error_rate)\nlearn.fine_tune(3)\nThese lines: - Create a vision model using ResNet18 architecture - Fine-tune it for 3 epochs - Track error rate as the metric\nIt will usually take about a minute or two if you use only CPU, but it can take about 10 seconds if you train it on GPU. This difference is because someone has already trained it (pretraining) to recognize over 14 Million images over 20,000 different types, something called the ImageNet dataset. So you actually start with a network which can do a lot, and they made all these parameters available to download from the internet.\nlearn.fine_tune takes those pre-trained weights and adjusts them to teach the model the differences between your datasets and what it was originally trained for. This method is called fine tuning.\nYou can get different architectures from https://timm.fast.ai/"
+    "text": "Model Training\nHere we will train our model with resnet18. In fastai, a learner is something which combines our neural net and the data we train it with.\nlearn = vision_learner(dls, resnet18, metrics=error_rate)\nlearn.fine_tune(3)\nThese lines: - Create a vision model using ResNet18 architecture. It’s like creating a baby AI, except it won’t keep you up at night (your debugging sessions will do that instead). - Fine-tune it for 3 epochs - Track error rate as the metric\nIt will usually take about a minute or two if you use only CPU, but it can take about 10 seconds if you train it on GPU. This difference is because someone has already trained it (pretraining) to recognize over 14 Million images over 20,000 different types, something called the ImageNet dataset. So you actually start with a network which can do a lot, and they made all these parameters available to download from the internet.\nlearn.fine_tune takes those pre-trained weights and adjusts them to teach the model the differences between your datasets and what it was originally trained for. This method is called fine tuning.\nYou can get different architectures from https://timm.fast.ai/"
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#prediction",
     "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#prediction",
-    "title": "Making a Cyclist recognizer",
+    "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Prediction",
     "text": "Prediction\nis_cyclist, _, probs = learn.predict(PILImage.create('cyclist.jpg'))\nprint(f\"This is a: {is_cyclist}.\")\nprint(f\"Probability that it is cyclist: {probs[0]:f}\")\nFinally: - Loads and predicts on a test image - Prints the predicted class - Shows the probability of the prediction"
+  },
+  {
+    "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#tabular-analysis",
+    "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#tabular-analysis",
+    "title": "Lesson 1: Vision models and Fundamentals",
+    "section": "Tabular Analysis",
+    "text": "Tabular Analysis\nWe can also can help analyze structured data like spreadsheets. Let’s start by breaking down each line of code and understanding what it does:\nfrom fastai.tabular.all import *\nThis line imports all the necessary functions and classes from fastai’s tabular module.\npath = untar_data(URLs.ADULT_SAMPLE)\nHere, we’re downloading and extracting a sample dataset called “Adult” that predicts whether someone makes over $50K per year. The untar_data function: - Downloads the dataset if it’s not already present - Extracts it from its compressed format - Returns the path where the data is stored\ndls = TabularDataLoaders.from_csv(\n    path/'adult.csv',\n    path=path,\n    y_names=\"salary\",\n    cat_names = ['workclass', 'education', 'marital-status', \n                 'occupation', 'relationship', 'race'],\n    cont_names = ['age', 'fnlwgt', 'education-num'],\n    procs = [Categorify, FillMissing, Normalize]\n)\nThis is where the magic begins! Let’s break this down: - We’re creating a DataLoader object that handles how we feed data to our model - path/'adult.csv': Specifies the CSV file containing our data - y_names=\"salary\": Indicates that “salary” is our target variable (what we’re trying to predict) - cat_names: Lists our categorical columns (text or discrete data) like workclass, education etc - cont_names: Lists our continuous numerical columns like age, final weight(a census data concept) , education num(numerical encoding of education level). These are the columns which can take any real number - procs: Specifies the preprocessing steps: - Categorify: Converts categorical variables into numbers - FillMissing: Handles any missing values - Normalize: Scales numerical data to a similar range\nlearn = tabular_learner(dls, metrics=accuracy)\nThis line creates our machine learning model: - tabular_learner: Creates a neural network designed for tabular data - metrics=accuracy: Tells the model to track prediction accuracy during training\ndls.show_batch()\nThis displays a sample of our processed data, helping us verify that everything looks correct before training. The beautiful thing about this function is that it uses type dispatch which is particularly used in a language called julia and it allows us to define functions that can adapt their behavior according to input types. Basically it will provide realistic data for age, fnlwgt etc\nlearn.fit_one_cycle(2)\nFinally, we train our model: - We don’t say fine tune model because for tables because every table of data is very different. So we just ‘fit’ the data. - The number 2 indicates we’ll train for 2 epochs (full passes through the data) - “one_cycle” refers to the One Cycle Policy, a training technique that helps achieve better results faster\n\nWhy Tabular Deep Learning?\nYou might wonder why we’d use deep learning for tabular data when we have traditional methods like Random Forests or XGBoost. Here’s why:\nIt can help in financial predictions, risk assesment, sales forcasting etc"
+  },
+  {
+    "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#collaborative-filtering",
+    "href": "posts/Lesson-1-Making-a-Cyclist-recogniser.html#collaborative-filtering",
+    "title": "Lesson 1: Vision models and Fundamentals",
+    "section": "Collaborative Filtering",
+    "text": "Collaborative Filtering\nCollaborative filtering is the basis of most recommandation systems today. From your youtube recommandation to the recommandations you see in spotify.\nIt works by finding which users liked which products and then it use that to guess what other product smilar user liked and based on those smilar users what users might like.\nNote that here Similar Users don’t mean similar demographically but similar in sense that those people liked the same kind of product that you liked.\n\n1. Import the necessary modules:\nfrom fastai.collab import *\n\nThis imports everything from the fastai.collab module, which provides tools for collaborative filtering and recommendation systems.\n\n\n\n2. Download and extract sample data:\npath = untar_data(URLs.ML_SAMPLE)\n\nAgain we are downloading and extracting data here\nURLs.ML_SAMPLE points to a small sample dataset from the MovieLens dataset, commonly used in recommendation system experiments.\n\n\n\n3. Create data loaders for collaborative filtering:\ndls = CollabDataLoaders.from_csv(path/'ratings.csv')\n\nCollabDataLoaders.from_csv reads a CSV file containing user-item interaction data (e.g., user ratings for movies) to create a data loader.\npath/'ratings.csv' specifies the path to the CSV file that contains the ratings dataset.\nThe dls object now holds the data loaders, which manage the data used for training and validation during the model’s training process.\n\n\n\n4. Display a sample batch of data:\ndls.show_batch()\n\nThis displays a sample batch of user-item-rating triplets (e.g., a user ID, a movie ID, and the user’s rating for the movie).\n\n\n\n5. Create a collaborative filtering model:\nlearn = collab_learner(dls, y_range=(0.5,5.5))\n\ncollab_learner initializes a collaborative filtering model based on a neural network architecture.\nThe dls object is passed to define the input data.\ny_range=(0.5, 5.5) specifies the range of the target values (ratings), helping the model output predictions in the expected range.\n\n\n\n6. Train the model with fine-tuning:\nlearn.fine_tune(10)\n\nfine_tune trains the model for a specified number of epochs—in this case, 10 epochs.\nThe model first uses a pre-trained embedding (if available) and then fine-tunes it on the given dataset.\n\n\n\n7. Display the results:\nlearn.show_results()\n\nThis method shows the predictions made by the model alongside the actual ratings from the test dataset.\nIt provides an intuitive way to evaluate the model’s performance by comparing predicted and actual ratings."
   },
   {
     "objectID": "posts/Installing-Dependencies.html",
