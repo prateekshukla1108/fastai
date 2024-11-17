@@ -293,7 +293,7 @@ This displays a grid showing the original images, their true segmentation masks,
 ## Tabular Analysis
 
 
-We can also can help analyze structured data like spreadsheets. Let's start by breaking down each line of code and understanding what it does:
+We can also help analyze structured data like spreadsheets. Let's start by breaking down each line of code and understanding what it does:
 
 ```python
 from fastai.tabular.all import *
@@ -306,6 +306,7 @@ path = untar_data(URLs.ADULT_SAMPLE)
 ```
 
 Here, we're downloading and extracting a sample dataset called "Adult" that predicts whether someone makes over $50K per year. The `untar_data` function:
+
 - Downloads the dataset if it's not already present
 - Extracts it from its compressed format
 - Returns the path where the data is stored
@@ -323,11 +324,12 @@ dls = TabularDataLoaders.from_csv(
 ```
 
 This is where the magic begins! Let's break this down:
+
 - We're creating a DataLoader object that handles how we feed data to our model
 - `path/'adult.csv'`: Specifies the CSV file containing our data
 - `y_names="salary"`: Indicates that "salary" is our target variable (what we're trying to predict)
 - `cat_names`: Lists our categorical columns (text or discrete data) like workclass, education etc
-- `cont_names`: Lists our continuous numerical columns like age, final weight(a census data concept) , education num(numerical encoding of education level). These are the columns which can take any real number
+- `cont_names`: Lists our continuous numerical columns like age, final weight(a census data concept), education num(numerical encoding of education level). These are the columns which can take any real number
 - `procs`: Specifies the preprocessing steps:
   - Categorify: Converts categorical variables into numbers
   - FillMissing: Handles any missing values
@@ -338,6 +340,7 @@ learn = tabular_learner(dls, metrics=accuracy)
 ```
 
 This line creates our machine learning model:
+
 - `tabular_learner`: Creates a neural network designed for tabular data
 - `metrics=accuracy`: Tells the model to track prediction accuracy during training
 
@@ -348,15 +351,16 @@ dls.show_batch()
 This displays a sample of our processed data, helping us verify that everything looks correct before training.
 The beautiful thing about this function is that it uses type dispatch which is particularly used in a language called julia and it allows us to define functions that can adapt their behavior according to input types. Basically it will provide realistic data for age, fnlwgt etc
 
-
 ```python
 learn.fit_one_cycle(2)
 ```
 
 Finally, we train our model:
+
 - We don't say fine tune model because for tables because every table of data is very different. So we just 'fit' the data.
 - The number 2 indicates we'll train for 2 epochs (full passes through the data)
 - "one_cycle" refers to the One Cycle Policy, a training technique that helps achieve better results faster
+
 
 ### Why Tabular Deep Learning?
 

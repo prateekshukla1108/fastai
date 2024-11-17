@@ -355,11 +355,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This displays a grid showing the original images, their true segmentation masks, and the model’s predicted segmentation masks for up to 6 images. The <code>figsize</code> parameter sets the size of the display.</p>
 <section id="tabular-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="tabular-analysis">Tabular Analysis</h2>
-<p>We can also can help analyze structured data like spreadsheets. Let’s start by breaking down each line of code and understanding what it does:</p>
+<p>We can also help analyze structured data like spreadsheets. Let’s start by breaking down each line of code and understanding what it does:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This line imports all the necessary functions and classes from fastai’s tabular module.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.ADULT_SAMPLE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Here, we’re downloading and extracting a sample dataset called “Adult” that predicts whether someone makes over $50K per year. The <code>untar_data</code> function: - Downloads the dataset if it’s not already present - Extracts it from its compressed format - Returns the path where the data is stored</p>
+<p>Here, we’re downloading and extracting a sample dataset called “Adult” that predicts whether someone makes over $50K per year. The <code>untar_data</code> function:</p>
+<ul>
+<li>Downloads the dataset if it’s not already present</li>
+<li>Extracts it from its compressed format</li>
+<li>Returns the path where the data is stored</li>
+</ul>
 <div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> TabularDataLoaders.from_csv(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    path<span class="op">/</span><span class="st">'adult.csv'</span>,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    path<span class="op">=</span>path,</span>
@@ -369,13 +374,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    cont_names <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'fnlwgt'</span>, <span class="st">'education-num'</span>],</span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    procs <span class="op">=</span> [Categorify, FillMissing, Normalize]</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is where the magic begins! Let’s break this down: - We’re creating a DataLoader object that handles how we feed data to our model - <code>path/'adult.csv'</code>: Specifies the CSV file containing our data - <code>y_names="salary"</code>: Indicates that “salary” is our target variable (what we’re trying to predict) - <code>cat_names</code>: Lists our categorical columns (text or discrete data) like workclass, education etc - <code>cont_names</code>: Lists our continuous numerical columns like age, final weight(a census data concept) , education num(numerical encoding of education level). These are the columns which can take any real number - <code>procs</code>: Specifies the preprocessing steps: - Categorify: Converts categorical variables into numbers - FillMissing: Handles any missing values - Normalize: Scales numerical data to a similar range</p>
+<p>This is where the magic begins! Let’s break this down:</p>
+<ul>
+<li>We’re creating a DataLoader object that handles how we feed data to our model</li>
+<li><code>path/'adult.csv'</code>: Specifies the CSV file containing our data</li>
+<li><code>y_names="salary"</code>: Indicates that “salary” is our target variable (what we’re trying to predict)</li>
+<li><code>cat_names</code>: Lists our categorical columns (text or discrete data) like workclass, education etc</li>
+<li><code>cont_names</code>: Lists our continuous numerical columns like age, final weight(a census data concept), education num(numerical encoding of education level). These are the columns which can take any real number</li>
+<li><code>procs</code>: Specifies the preprocessing steps:
+<ul>
+<li>Categorify: Converts categorical variables into numbers</li>
+<li>FillMissing: Handles any missing values</li>
+<li>Normalize: Scales numerical data to a similar range</li>
+</ul></li>
+</ul>
 <div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> tabular_learner(dls, metrics<span class="op">=</span>accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This line creates our machine learning model: - <code>tabular_learner</code>: Creates a neural network designed for tabular data - <code>metrics=accuracy</code>: Tells the model to track prediction accuracy during training</p>
+<p>This line creates our machine learning model:</p>
+<ul>
+<li><code>tabular_learner</code>: Creates a neural network designed for tabular data</li>
+<li><code>metrics=accuracy</code>: Tells the model to track prediction accuracy during training</li>
+</ul>
 <div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This displays a sample of our processed data, helping us verify that everything looks correct before training. The beautiful thing about this function is that it uses type dispatch which is particularly used in a language called julia and it allows us to define functions that can adapt their behavior according to input types. Basically it will provide realistic data for age, fnlwgt etc</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Finally, we train our model: - We don’t say fine tune model because for tables because every table of data is very different. So we just ‘fit’ the data. - The number 2 indicates we’ll train for 2 epochs (full passes through the data) - “one_cycle” refers to the One Cycle Policy, a training technique that helps achieve better results faster</p>
+<p>Finally, we train our model:</p>
+<ul>
+<li>We don’t say fine tune model because for tables because every table of data is very different. So we just ‘fit’ the data.</li>
+<li>The number 2 indicates we’ll train for 2 epochs (full passes through the data)</li>
+<li>“one_cycle” refers to the One Cycle Policy, a training technique that helps achieve better results faster</li>
+</ul>
 <section id="why-tabular-deep-learning" class="level3">
 <h3 class="anchored" data-anchor-id="why-tabular-deep-learning">Why Tabular Deep Learning?</h3>
 <p>You might wonder why we’d use deep learning for tabular data when we have traditional methods like Random Forests or XGBoost. Here’s why:</p>
