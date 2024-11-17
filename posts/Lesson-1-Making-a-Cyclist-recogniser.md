@@ -7,7 +7,7 @@ layout: post
 description: "Documentation for lesson 1 of fastAI practical deep learning for coders."
 title: "Lesson 1: Vision models and Fundamentals"
 categories:
-- computer_usage
+- fastAI
 
 ---
 
@@ -65,6 +65,8 @@ Nowadays, most people don't run Jupyter notebooks on their own local machines bu
 Let's say you want to make a self-driving car. A big challenge for it would be to identify between cyclists and pedestrians, so we are going to do that now. We are going to make a computer vision model that can differentiate between cyclists and pedestrians.
 
 ## Import Statements
+
+
 ```python
 from duckduckgo_search import DDGS
 from fastcore.all import *
@@ -73,6 +75,7 @@ import json
 from fastdownload import download_url
 from fastai.vision.all import *
 ```
+
 These lines import necessary libraries:
 - `DDGS`: DuckDuckGo search API for finding images
 - `fastcore`: Utility functions for deep learning
@@ -81,7 +84,9 @@ These lines import necessary libraries:
 - `time`: For time-related operations
 
 Note: You might get an error for duckduckgo_search while executing this part. Don't panic - just go to the console and execute:
-```
+
+
+```bash
 pip install duckduckgo-search
 ```
 This will install duckduckgo-search in your notebook.
@@ -91,6 +96,7 @@ This will install duckduckgo-search in your notebook.
 def search_images(keywords, max_images=400):
     return L(DDGS().images(keywords, max_results=max_images)).itemgot("image")
 ```
+
 This function:
 - Takes search keywords and maximum number of images
 - Uses DuckDuckGo to search for images
@@ -99,6 +105,8 @@ This function:
 - `itemgot("image")` extracts just the image URLs from the search results
 
 ## Initial Test Downloads
+
+
 ```python
 urls = search_images("pedestrians", max_images=1)
 print(urls[0])
@@ -106,6 +114,7 @@ dest = "pedestrians.jpg"
 download_url(urls[0], dest, show_progress=False)
 im = Image.open(dest)
 ```
+
 This section:
 - Searches for one pedestrian image
 - Downloads it as 'pedestrians.jpg'
@@ -135,6 +144,7 @@ for o in searches:
     time.sleep(5)
     resize_images(path / o, max_size=400, dest=path / o)
 ```
+
 This loop:
 - Creates directories for each category
 - Downloads multiple images for each category
@@ -148,6 +158,7 @@ failed = verify_images(get_image_files(path))
 failed.map(Path.unlink)
 len(failed)
 ```
+
 These lines:
 - Check all downloaded images for corruption
 - Delete any corrupt images
@@ -196,6 +207,7 @@ Here we will train our model with resnet18. In fastai, a learner is something wh
 learn = vision_learner(dls, resnet18, metrics=error_rate)
 learn.fine_tune(3)
 ```
+
 These lines:
 - Create a vision model using ResNet18 architecture. It's like creating a baby AI, except it won't keep you up at night (your debugging sessions will do that instead).
 - Fine-tune it for 3 epochs
@@ -213,6 +225,7 @@ is_cyclist, _, probs = learn.predict(PILImage.create('cyclist.jpg'))
 print(f"This is a: {is_cyclist}.")
 print(f"Probability that it is cyclist: {probs[0]:f}")
 ```
+
 Finally:
 - Loads and predicts on a test image
 - Prints the predicted class
@@ -229,6 +242,7 @@ Segmentation where we take photos and we color every pixel to identify different
 from fastcore.all import *
 from fastai.vision.all import *
 ```
+
 These lines import the necessary libraries. `fastcore` provides core utilities, while `fastai.vision` contains computer vision-specific functionality.
 
 ```python
@@ -246,28 +260,33 @@ dls = SegmentationDataLoaders.from_label_func(
     codes = np.loadtxt(path/'codes.txt', dtype=str)  # Load class names from codes.txt
 )
 ```
+
 This creates a `DataLoader` specifically for segmentation tasks:
 - `bs=8` sets the batch size to 8 images
 - `get_image_files()` gets all image files from the images directory
 - The `label_func` is a lambda function that maps each image file to its corresponding label file by adding '_P' to the filename
 - `codes.txt` contains the names of segmentation classes (like 'road', 'building', etc.)
 
+
 ```python
 # Create a U-Net model with ResNet34 backbone
 learn = unet_learner(dls, resnet34)
 ```
+
 This creates a U-Net architecture (common for segmentation tasks) using ResNet34 as the backbone. U-Net is particularly effective for semantic segmentation because it combines detailed spatial information with deep features.
 
 ```python
 # Fine-tune the model for 8 epochs
 learn.fine_tune(8)
 ```
+
 This trains the model using transfer learning. It first trains the newly added U-Net layers while keeping the pretrained ResNet34 frozen, then fine-tunes the entire network for 8 epochs.
 
 ```python
 # Display prediction results for up to 6 images
 learn.show_results(max_n=6, figsize=(7,8))
 ```
+
 This displays a grid showing the original images, their true segmentation masks, and the model's predicted segmentation masks for up to 6 images. The `figsize` parameter sets the size of the display.
 
 
@@ -279,11 +298,13 @@ We can also can help analyze structured data like spreadsheets. Let's start by b
 ```python
 from fastai.tabular.all import *
 ```
+
 This line imports all the necessary functions and classes from fastai's tabular module.
 
 ```python
 path = untar_data(URLs.ADULT_SAMPLE)
 ```
+
 Here, we're downloading and extracting a sample dataset called "Adult" that predicts whether someone makes over $50K per year. The `untar_data` function:
 - Downloads the dataset if it's not already present
 - Extracts it from its compressed format
@@ -300,6 +321,7 @@ dls = TabularDataLoaders.from_csv(
     procs = [Categorify, FillMissing, Normalize]
 )
 ```
+
 This is where the magic begins! Let's break this down:
 - We're creating a DataLoader object that handles how we feed data to our model
 - `path/'adult.csv'`: Specifies the CSV file containing our data
@@ -314,6 +336,7 @@ This is where the magic begins! Let's break this down:
 ```python
 learn = tabular_learner(dls, metrics=accuracy)
 ```
+
 This line creates our machine learning model:
 - `tabular_learner`: Creates a neural network designed for tabular data
 - `metrics=accuracy`: Tells the model to track prediction accuracy during training
@@ -321,11 +344,15 @@ This line creates our machine learning model:
 ```python
 dls.show_batch()
 ```
+
 This displays a sample of our processed data, helping us verify that everything looks correct before training.
 The beautiful thing about this function is that it uses type dispatch which is particularly used in a language called julia and it allows us to define functions that can adapt their behavior according to input types. Basically it will provide realistic data for age, fnlwgt etc
+
+
 ```python
 learn.fit_one_cycle(2)
 ```
+
 Finally, we train our model:
 - We don't say fine tune model because for tables because every table of data is very different. So we just 'fit' the data.
 - The number 2 indicates we'll train for 2 epochs (full passes through the data)
@@ -347,37 +374,52 @@ Note that here Similar Users don't mean similar demographically but similar in s
 
 
 ### 1. Import the necessary modules:
+
+
 ```python
 from fastai.collab import *
 ```
+
 - This imports everything from the `fastai.collab` module, which provides tools for collaborative filtering and recommendation systems.
 
 ### 2. Download and extract sample data:
+
+
 ```python
 path = untar_data(URLs.ML_SAMPLE)
 ```
+
 - Again we are downloading and extracting data here
 - `URLs.ML_SAMPLE` points to a small sample dataset from the MovieLens dataset, commonly used in recommendation system experiments.
 
 ### 3. Create data loaders for collaborative filtering:
+
+
 ```python
 dls = CollabDataLoaders.from_csv(path/'ratings.csv')
 ```
+
 - `CollabDataLoaders.from_csv` reads a CSV file containing user-item interaction data (e.g., user ratings for movies) to create a data loader.
 - `path/'ratings.csv'` specifies the path to the CSV file that contains the ratings dataset.
 - The `dls` object now holds the data loaders, which manage the data used for training and validation during the model's training process.
 
 
 ### 4. Display a sample batch of data:
+
+
 ```python
 dls.show_batch()
 ```
+
 - This displays a sample batch of user-item-rating triplets (e.g., a user ID, a movie ID, and the user's rating for the movie).
 
 ### 5. Create a collaborative filtering model:
+
+
 ```python
 learn = collab_learner(dls, y_range=(0.5,5.5))
 ```
+
 - `collab_learner` initializes a collaborative filtering model based on a neural network architecture.
 - The `dls` object is passed to define the input data.
 - `y_range=(0.5, 5.5)` specifies the range of the target values (ratings), helping the model output predictions in the expected range.
@@ -385,16 +427,22 @@ learn = collab_learner(dls, y_range=(0.5,5.5))
 
 
 ### 6. Train the model with fine-tuning:
+
+
 ```python
 learn.fine_tune(10)
 ```
+
 - `fine_tune` trains the model for a specified number of epochs—in this case, 10 epochs.
 - The model first uses a pre-trained embedding (if available) and then fine-tunes it on the given dataset.
 
 ### 7. Display the results:
+
+
 ```python
 learn.show_results()
 ```
+
 - This method shows the predictions made by the model alongside the actual ratings from the test dataset.
 - It provides an intuitive way to evaluate the model's performance by comparing predicted and actual ratings.
 
