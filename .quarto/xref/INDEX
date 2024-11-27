@@ -1,14 +1,17 @@
 {
+  "posts/Installing-Dependencies.md": {
+    "Installing-Dependencies.html": "bd424ca0"
+  },
   "posts/Lesson-1-Making-a-Cyclist-recogniser.md": {
-    "Lesson-1-Making-a-Cyclist-recogniser.html": "1f380e88"
+    "Lesson-1-Making-a-Cyclist-recogniser.html": "d875fe56"
+  },
+  "posts/Lesson-2-data-augmentation-and-putting-models-on-production.md": {
+    "Lesson-2-data-augmentation-and-putting-models-on-production.html": "531004e8"
   },
   "about.qmd": {
-    "about.html": "01947a32"
+    "about.html": "d643c3b3"
   },
   "index.qmd": {
-    "index.html": "e0a453a9"
-  },
-  "posts/Installing-Dependencies.md": {
-    "Installing-Dependencies.html": "58096b7d"
+    "index.html": "5c7b9ee0"
   }
 }

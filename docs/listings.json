@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Lesson-2-data-augmentation-and-putting-models-on-production.html",
       "/posts/Lesson-1-Making-a-Cyclist-recogniser.html",
       "/posts/Installing-Dependencies.html"
     ]

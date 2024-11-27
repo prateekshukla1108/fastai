@@ -4,7 +4,210 @@
     "href": "index.html",
     "title": "Prateek ShuklaDocumentation for fastAI course.",
     "section": "",
-    "text": "Lesson 1: Vision models and Fundamentals\n\n\n\n\n\n\nfastAI\n\n\n\nDocumentation for lesson 1 of fastAI practical deep learning for coders.\n\n\n\n\n\nNov 15, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nHow to setup WSL and Python for fastAI\n\n\n\n\n\n\ncomputer_usage\n\n\n\nGuide to install dependencies for fastAI.\n\n\n\n\n\nNov 13, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "Lesson 2: Data Augmentation and Putting the model on production\n\n\n\n\n\n\nfastAI\n\n\n\nTraining a model with data augmentation and huggingface spaces.\n\n\n\n\n\nNov 27, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nLesson 1: Vision models and Fundamentals\n\n\n\n\n\n\nfastAI\n\n\n\nDocumentation for lesson 1 of fastAI practical deep learning for coders.\n\n\n\n\n\nNov 15, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nHow to setup WSL and Python for fastAI\n\n\n\n\n\n\ncomputer_usage\n\n\n\nGuide to install dependencies for fastAI.\n\n\n\n\n\nNov 13, 2024\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "",
+    "text": "This lesson is going to be about making a bear classifier and putting it into production. The project that we will be using will be a bear classifier and it will discriminate between black bears, Grizzly Bears, Teddy Bears. Also at last we will be also discussing on how to make things faster when using jupyter"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#setting-up-our-tools",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#setting-up-our-tools",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "1. Setting Up Our Tools",
+    "text": "1. Setting Up Our Tools\nFirst, we need to import some special tools (we call them libraries) that will help us build our bear classifier:\nfrom duckduckgo_search import DDGS\nfrom fastcore.all import *\nimport time\nfrom fastai.vision.widgets import *\nfrom fastai.vision.all import *\nfrom fastdownload import download_url\nWhat do these tools do? - duckduckgo_search: Helps us find bear pictures on the internet - fastai: A powerful library that makes AI easy to use - time: Helps us add delays when downloading images - fastdownload: Makes downloading images easy"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#getting-our-bear-images",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#getting-our-bear-images",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "2. Getting Our Bear Images",
+    "text": "2. Getting Our Bear Images\nNow, let’s create a function to search for bear images:\ndef search_images(keywords, max_images=400):\n    return L(DDGS().images(keywords, max_results=max_images)).itemgot(\"image\")\nThis function is like having a personal assistant who can search the internet for bear pictures! We tell it what kind of bear we want, and how many pictures we need.\nLet’s test it by downloading one image of each bear type:\n# Download a grizzly bear image\nurls = search_images(\"grizzly bear\", max_images=1)\ndownload_url(urls[0], \"grizzly.jpg\", show_progress=False)\n\n# Download a teddy bear image\ndownload_url(search_images(\"Teddy Bear photos\", max_images=1)[0], \"teddy.jpg\", show_progress=False)\n\n# Download a black bear image\ndownload_url(search_images(\"Black Bears\", max_images=1)[0], \"Black.jpg\", show_progress=False)"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#organizing-our-data",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#organizing-our-data",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "3. Organizing Our Data",
+    "text": "3. Organizing Our Data\nNow we need to create folders for our different types of bears:\nbear_types = 'grizzly', 'black', 'teddy'\npath = Path('bears')\nsearches = [\"Grizzly Bear\", \"Black Bear\", \"Teddy bear\"]\n\n# Create folders and download multiple images\nfor o in searches:\n    dest = path / o\n    dest.mkdir(exist_ok=True, parents=True)\n    download_images(dest, urls=search_images(f\"{o} photo\"))\n    time.sleep(5)  # Wait 5 seconds between searches\n    resize_images(path / o, max_size=400, dest=path / o)\nThis code: 1. Creates a folder called “bears” 2. Inside it, creates three more folders: one for each bear type 3. Downloads multiple images for each bear type 4. Resizes them to make sure they’re not too big"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#preparing-images-for-training",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#preparing-images-for-training",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "4. Preparing Images for Training",
+    "text": "4. Preparing Images for Training\nBefore we can train our AI, we need to check our images and prepare them:\n# Find all our image files\nfns = get_image_files(path)\n\n# Check for any broken images and remove them\nfailed = verify_images(fns)\nfailed.map(Path.unlink)\nNow, we’ll create a DataBlock to handle images\nbears = DataBlock(\n    blocks=(ImageBlock, CategoryBlock),  # We're working with images and categories\n    get_items=get_image_files,          # How to find our images\n    splitter=RandomSplitter(valid_pct=0.2, seed=42),  # Split data into training and testing\n    get_y=parent_label,                 # Use folder names as labels\n    item_tfms=Resize(128))              # Resize all images to the same size"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#training-our-ai-model",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#training-our-ai-model",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "5. Training Our AI Model",
+    "text": "5. Training Our AI Model\nNow we will be training our model with Resnet18\ndls = bears.dataloaders(path)\nlearn = vision_learner(dls, resnet18, metrics=error_rate)\nlearn.fine_tune(4)  \nWe can make this faster and more efficient by resizing or cropping the images. We can do this by 3 ways ### Resizing\nBy default Resize crops the images to fit a square shape of the size requested, using the full width or height. This can result in losing some important details.\nbears = bears.new(item_tfms=Resize(128, ResizeMethod.Squish)) dls = bears.dataloaders(path) dls.valid.show_batch(max_n=4, nrows=1)\n\nPadding\nAlternatively, you can ask fastai to pad the images with zeros (black). This fills the empty spaces with black.\nbears = bears.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeros')) dls = bears.dataloaders(path) dls.valid.show_batch(max_n=4, nrows=1)\nAll of these approaches seem somewhat wasteful, or problematic. If we squish or stretch the images they end up as unrealistic shapes, leading to a model that learns that things look different to how they actually are, which we would expect to result in lower accuracy. If we crop the images then we remove some of the features that allow us to perform recognition. For instance, if we were trying to recognize breeds of dog or cat, we might end up cropping out a key part of the body or the face necessary to distinguish between similar breeds. If we pad the images then we have a whole lot of empty space, which is just wasted computation for our model and results in a lower effective resolution for the part of the image we actually use. ### RandomResizedCrop\nInstead, what we normally do in practice is to randomly select part of the image, and crop to just that part. On each epoch (which is one complete pass through all of our images in the dataset) we randomly select a different part of each image. This means that our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways.\nIn fact, an entirely untrained neural network knows nothing whatsoever about how images behave. It doesn’t even recognize that when an object is rotated by one degree, it still is a picture of the same thing! So actually training the neural network with examples of images where the objects are in slightly different places and slightly different sizes helps it to understand the basic concept of what an object is, and how it can be represented in an image.\nHere is the exmaple -\n\nbears = bears.new(item_tfms=Resize(128), batch_tfms=aug_transforms(mult=2)) dls = bears.dataloaders(path) dls.train.show_batch(max_n=8, nrows=2, unique=True)\nThe batch_tfms=aug_transforms(mult=2) applies data augmentation techniques, effectively doubling the number of training samples by creating variations of the original images through transformations like rotation, flipping, or color adjustments."
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#checking-how-well-it-works",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#checking-how-well-it-works",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "6. Checking How Well It Works",
+    "text": "6. Checking How Well It Works\nFinally, let’s see how well our AI does:\ninterp = ClassificationInterpretation.from_learner(learn)\nThis creates an interpretation object from your trained model (the learn object). It’s a crucial tool for analyzing how your model performs, containing information about predictions, actual labels, losses, and other metrics.\ninterp.plot_confusion_matrix()\nThis creates a confusion matrix visualization - a table showing:\n\nRows: Actual classes\nColumns: Predicted classes\nEach cell: Number of predictions This helps you see where your model is getting confused. For example, if you’re classifying cats and dogs, it shows how many cats were correctly identified as cats, how many cats were mistakenly labeled as dogs, etc.\n\n interp.plot_top_losses(5, nrows=1)\nThis shows the 5 images where your model performed worst (had highest loss):\n\nEach image is displayed with:\n\nThe actual label\nThe predicted label\nThe loss value\nThe probability the model assigned to its prediction This is invaluable for understanding what types of images your model struggles with"
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#extra-cleaning-up-our-dataset",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#extra-cleaning-up-our-dataset",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "Extra: Cleaning Up Our Dataset",
+    "text": "Extra: Cleaning Up Our Dataset\nIf we want to improve our model, we can use this tool to review and clean our dataset:\ncleaner = ImageClassifierCleaner(learn)\nThis creates an interactive tool (works in Jupyter notebooks) that lets you:\n\nBrowse through your dataset\nFlag incorrect labels\nDelete problematic images\nRemove duplicates It’s especially useful when you discover through the interpretation tools that your dataset has issues like mislabeled images or poor quality samples.\n\nYou can find which images are bad and you can keep it or remove it or put it in the correct catagory."
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#what-is-gradio",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#what-is-gradio",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "What is Gradio?",
+    "text": "What is Gradio?\nGradio is a Python library that allows you to quickly create customizable user interfaces for machine learning models. With just a few lines of code, you can turn your model into an interactive web application, making it easy for others to test and use your model without needing any programming skills."
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#what-is-hugging-face",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#what-is-hugging-face",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "What is Hugging Face?",
+    "text": "What is Hugging Face?\nHugging Face is a popular platform that provides state-of-the-art pre-trained models for natural language processing (NLP), computer vision, and more. Their library, transformers, offers a wide range of models that you can use directly in your applications."
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#starting-up",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#starting-up",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "Starting Up",
+    "text": "Starting Up\nTo start firstly you need to take your model. You can do this by using -\nlearn = load_learner('export.pkl')\nThis will export your model into a file named export.pkl\nThen you would need to install gradio and transformers. You can do it by using pip or conda\nconda install `gradio transformers`\nCreating a blog post for beginners about using Gradio with Hugging Face can be an exciting way to introduce them to the world of machine learning and user interfaces. Below is a simplified and engaging blog post inspired by the provided content."
+  },
+  {
+    "objectID": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#setting-up-huggingface",
+    "href": "posts/Lesson-2-data-augmentation-and-putting-models-on-production.html#setting-up-huggingface",
+    "title": "Lesson 2: Data Augmentation and Putting the model on production",
+    "section": "Setting up huggingface",
+    "text": "Setting up huggingface\nGo to huggingface.co/spaces and create a new space. You will need to sign up to make a new space. After signing up, you will be prompted with this kind of interface:\nFill in the relevant details and create your Hugging Face space. After you create it, you will be greeted by a beautiful page like this:\nYou need to generate a token, clone the repository on your machine, edit a file, and push it back to the Hugging Face platform.\nIf you feel intimidated by all this jargon, consider learning how to use Git or GitHub through resources available online.\n\nStep 1: Generate Your Access Token\nBefore cloning your space, you need to generate an access token. This token allows you to authenticate and push changes to your repository. To generate a token:\n\nNavigate to your account settings on Hugging Face.\nClick on “Access Tokens” in the sidebar.\nCreate a new token with write access.\n\n\n\nStep 2: Clone Your Repository\nOnce you have your access token, open your terminal and navigate to the directory where you want to clone your space. Use the following command:\ngit clone https://&lt;your-username&gt;:&lt;your-access-token&gt;@huggingface.co/spaces/&lt;your-space-name&gt;\nReplace &lt;your-username&gt;, &lt;your-access-token&gt;, and &lt;your-space-name&gt; with your actual Hugging Face username, the generated token, and the name of your space respectively. This command will create a local copy of your space where you can make changes.\n\n\nStep 3: Edit Your Files\nNavigate into the cloned directory:\ncd &lt;your-space-name&gt;\nOpen the folder in your preferred code editor (like Visual Studio Code). You will typically find a few default files such as .gitattributes and README.md.\nTo create functionality for your space, you’ll need to add an app.py file. This is where you’ll write the code for your application.\n\n\nStep 4: Create Your Application\nIn app.py, you can start coding your application. Here is the default text which comes with gradio\nimport gradio as gr\n\ndef greet(name):\n    return \"Hello \" + name + \"!!\"\n\ndemo = gr.Interface(fn=greet, inputs=\"text\", outputs=\"text\")\ndemo.launch()\nThis code snippet sets up a basic Gradio interface that allows users to upload an image and receive a classification result.\n\n\nStep 5: Prepare for Deployment\nBefore pushing your changes back to Hugging Face, create a .gitignore file in your project directory. This file helps prevent unnecessary files from being uploaded. Here’s an example of what to include in .gitignore:\n__pycache__/\n*.pyc\nvenv/\n\n\nStep 6: Push Your Changes\nAfter editing and saving your files, it’s time to push them back to Hugging Face. First, check what changes are staged for commit:\ngit status\nIf everything looks good, add your changes:\ngit add .\nThen commit them with a message:\ngit commit -m \"Initial commit of my Hugging Face Space\"\nFinally, push the changes:\ngit push origin main\n\nNote: If you are afraid of cli then you can also use github desktop which is beautiful GUI version to manage git repositories\n\n\nNote: You can also create your app.py file from your browser\n\n\n\nStep 7: View Your Deployed Space\nAfter pushing successfully, navigate back to your Hugging Face Space URL (e.g., https://huggingface.co/spaces/&lt;your-username&gt;/&lt;your-space-name&gt;). You should see your application live! It may take a moment for the deployment process to complete.\nCongratulations! You have successfully set up and deployed your first Hugging Face Space. Now you can share it with friends or colleagues and explore adding more features or models."
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html",
+    "href": "posts/Installing-Dependencies.html",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "",
+    "text": "WSL implies for Windows Subsystem for Linux (WSL), where you can run a Linux environment on your Windows machine without the hassle of dual-booting or setting up a virtual machine. This guide will take you through the steps to install WSL, focusing on WSL 2, which is faster, better, and more compatible than its predecessor.\nThe basic prerequisits are that You need Windows 10 version 2004 or higher (Build 19041 and above) or Windows 11. If you’re still rocking an older version, it might be time for an upgrade—like swapping out your flip phone for a smartphone!\nIf you get any error related to virtualization. You need to have virtualization enabled which you can do by enabling Hyper V in your device\n\n\nOpen PowerShell as Administrator: Search for “PowerShell” in the Start menu. Right-click on it and select “Run as administrator”. If you get intimidated by the black screen don’t panik you are inside terminal which helps us to execute commands. More on it later! Run the Installation Command: In the PowerShell window, type the following command and press Enter\nwsl --install\nThis command will enable all the necessary features for WSL, download the Linux Kernel, and install Ubuntu as your default distribution. A restart may be required.\nIf ubuntu is not your cup of tea then you can choose another distribution by\nwsl --install -d Debian\nfor debian\n\n\n\nAfter installation, launch your installed Linux distribution from the Start menu\nYou’ll be prompted to create a username and password. Choose wisely this is your secret identity! Remember, while typing your password, nothing will appear on the screen; this is normal behavior in Linux. It’s not broken; it’s just shy.\n\n\n\nNow that you’ve got your Linux environment set up, let’s make sure it’s up to date: you can do that by just typing\nsudo apt update\nsudo apt upgrade"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-1-enable-wsl",
+    "href": "posts/Installing-Dependencies.html#step-1-enable-wsl",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "",
+    "text": "Open PowerShell as Administrator: Search for “PowerShell” in the Start menu. Right-click on it and select “Run as administrator”. If you get intimidated by the black screen don’t panik you are inside terminal which helps us to execute commands. More on it later! Run the Installation Command: In the PowerShell window, type the following command and press Enter\nwsl --install\nThis command will enable all the necessary features for WSL, download the Linux Kernel, and install Ubuntu as your default distribution. A restart may be required.\nIf ubuntu is not your cup of tea then you can choose another distribution by\nwsl --install -d Debian\nfor debian"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-2-make-a-user-account",
+    "href": "posts/Installing-Dependencies.html#step-2-make-a-user-account",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "",
+    "text": "After installation, launch your installed Linux distribution from the Start menu\nYou’ll be prompted to create a username and password. Choose wisely this is your secret identity! Remember, while typing your password, nothing will appear on the screen; this is normal behavior in Linux. It’s not broken; it’s just shy."
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-4-update-the-system",
+    "href": "posts/Installing-Dependencies.html#step-4-update-the-system",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "",
+    "text": "Now that you’ve got your Linux environment set up, let’s make sure it’s up to date: you can do that by just typing\nsudo apt update\nsudo apt upgrade"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#some-basic-definitions-and-tools-handy-in-cli",
+    "href": "posts/Installing-Dependencies.html#some-basic-definitions-and-tools-handy-in-cli",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Some basic definitions and tools handy in cli",
+    "text": "Some basic definitions and tools handy in cli\nSo here are some popular commands and definitions which we need to keep in mind while we use CLI\ndirectory - for most cases directory is your ‘folder’ we can store different files and directories in a directory.\nls : Lists the contents of a directory. Use options like -a for hidden files or -l for detailed information.\ncd [directory]: Changes the current directory to the specified one. Use cd .. to go back\nmkdir [dirname]: Creates a new directory with the specified name.\nrm -rf [dirname] : Removes a directory and everything in it. This is done without confirmation so know what you are doing"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-1-install-wget-in-you-system",
+    "href": "posts/Installing-Dependencies.html#step-1-install-wget-in-you-system",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 1: Install wget in you system",
+    "text": "Step 1: Install wget in you system\nyou can do so by executing -\nsudo apt install wget"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-2-download-the-setup-script-for-miniforge",
+    "href": "posts/Installing-Dependencies.html#step-2-download-the-setup-script-for-miniforge",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 2: Download the setup script for miniforge",
+    "text": "Step 2: Download the setup script for miniforge\nyou can do that by following these commands\n\nfor x86_64\nwget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh\n\n\nfor arm\nwget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh\nthis will download the Miniforge installer in your WSL"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-3-install-miniforge-in-your-wsl",
+    "href": "posts/Installing-Dependencies.html#step-3-install-miniforge-in-your-wsl",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 3: Install miniforge in your WSL",
+    "text": "Step 3: Install miniforge in your WSL\nexecute the following command -\n\nFor x86_64\nbash Miniforge3-Linux-x86_64.sh\n\n\nFor Arm\nbash Miniforge3-Linux-aarch64.sh\nA simple setup will appear which will ask you to accept the licence agreement\nThen a prompt will appear telling you that setup will install miniforge in your home directory say yes to it\nAnd then miniforge will install not only python but a whole bunch of libraries which will come handy to us later.\nrestart you shell by executing bash to make it initialize miniforge"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-4-agree-to-initialize-it",
+    "href": "posts/Installing-Dependencies.html#step-4-agree-to-initialize-it",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 4: Agree to initialize it",
+    "text": "Step 4: Agree to initialize it\nIt will ask you if you want to initialize it whenever you start your machine and say yes to it.\nWhat it will do is that it will execute python everytime we launch wsl"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#mamba-and-conda",
+    "href": "posts/Installing-Dependencies.html#mamba-and-conda",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Mamba and conda",
+    "text": "Mamba and conda\nMamba and Conda are both powerful tools used for package and environment management in Python. They install everything we need for python and help us create virtual environments. This brings us to - ## Step 5: Enable virtual environment\nA virtual environment is a self-contained directory that allows you to manage dependencies for different projects without stepping on each other’s toes. It will help seperate python we need with the system python\nTo create a virtual environment just execute:\nmamba create -n fastai_env python=3.9\nthis will create a python virtual environment\nbut that’s not all we also need to activate it for it to work this is done by executing\nmamba activate fastai_env\n\nA pro tip - You can activate the virtual environment everytime you want by putting it in your .bashrc file. You can do that by\n\nnano .bashrc\nthis opens a text editor which we will use to edit files. Edit it by adding mamba activate fastai_env at the end of the file.\nthen press ctrl + x to exit and y to save the file."
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-6-installing-ipython-and-jupyter-lab",
+    "href": "posts/Installing-Dependencies.html#step-6-installing-ipython-and-jupyter-lab",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 6: Installing ipython and jupyter lab",
+    "text": "Step 6: Installing ipython and jupyter lab\n\nNeed for these tools\nIf you’re ready to kick your AI game up a notch, you need to get cozy with IPython, JupyterLab, nbdev. We have so many good reasons to use these tools\nWe will use Ipython because\n\nIt helps us to display media like Images, Videos etc\nIPython includes special commands (prefixed with % or %%) that allow you to perform tasks like timing execution or running shell commands seamlessly.\nWith improved tracebacks and debugging capabilities, it makes troubleshooting easier.\n\nWe will use Jupyter Lab because -\n\nMulti document UI - Open multiple notebooks, text files, and terminals all at once. You can juggle your projects too. No more switching tabs.\nExtensions Galore: Want to customize your experience? JupyterLab supports extensions that let you add new features or integrate with other tools. It’s like dressing up your notebook in the latest fashion make it yours\nInteractive Widgets: Create interactive visualizations and controls right in your notebooks. Want to tweak parameters on the fly? Just slide those sliders.\n\nnbdev is Important because\n\nLiterate Programming: Write code, tests, and documentation together in Jupyter notebooks, enhancing readability and maintainability.\nAutomatic Documentation: Generate up-to-date documentation directly from your notebooks, streamlining the process of creating and maintaining libraries.\nIntegrated Testing: Write and run unit tests within your notebooks, ensuring code quality with automatic execution during builds and CI/CD processes.\n\nBasically they help is making the experiance smoother for the journey. ### Installation\nHere is the command to install these tools -\nmamba install ipython jupyterlab nbdev"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-7-install-pytorch",
+    "href": "posts/Installing-Dependencies.html#step-7-install-pytorch",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 7: Install pytorch",
+    "text": "Step 7: Install pytorch\nPyTorch is a powerful and flexible tool for deep learning and machine learning projects. Here are some of its features\n\nDynamic Computation Graphs: Allows changes to the model on-the-fly, making debugging easier.\nTensor Operations: Supports efficient tensor computations with GPU acceleration for faster processing.\nUser-Friendly: Intuitive and Pythonic interface, great for beginners and experienced users alike.\nRich Ecosystem: Includes libraries for building neural networks and optimization, simplifying model development.\nStrong Community: Extensive documentation and active community support for learning and troubleshooting.\n\n\nInstallation\nHere is how to get it installed -\n\nFor devices with Nvidia GPU - if your device have an Nvidia GPU then you can install pytorch with CUDA support by executing following command -\n\nmamba install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia\nYou will also need to install the cuda toolkit for pytorch to work. You can do it by executing -\n\nwget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/cuda_12.6.2_560.35.03_linux.run\nThen run\nsudo sh cuda_12.6.2_560.35.03_linux.run\n\nFor devices with integrated graphics - If you are poor student like me and have device with integrated graphics then you should install pytorch by using following command -\n\nmamba install pytorch torchvision torchaudio cpuonly -c pytorch"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#step-8-install-fastai",
+    "href": "posts/Installing-Dependencies.html#step-8-install-fastai",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Step 8: Install FastAI",
+    "text": "Step 8: Install FastAI\nFast AI will be the main library we will be working with. It is designed to make deep learning accessible to everyone, regardless of their coding experience. It is is built on top of PyTorch designed to make the complex realm of artificial intelligence as approachable as your favorite recipe for instant noodles.\n\nInstallation\nTo install it just execute this command in your terminal -\nmamba install -c fastai fastai\nAnd you have successfully installed the tools required for the course."
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#vim",
+    "href": "posts/Installing-Dependencies.html#vim",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Vim",
+    "text": "Vim\nVim is the most supereme cli text editor that one can use in linux. Here is how to install and use it\n\nOpen WSL Terminal:\n\nLaunch your WSL terminal.\n\nUpdate Package List:\n\nBefore installing any software, update the package list by running:\nsudo apt update\n\nInstall Vim:\n\nInstall Vim by executing the following command:\nsudo apt install vim -y\nThis command retrieves and installs Vim along with its necessary components.\n\nLaunching Vim:\n\nTo create or edit a file, use the command:\nvim filename.txt\nReplace filename.txt with your desired file name. If the file does not exist, Vim will create it.\n\nBasic Navigation and Editing:\n\nUpon opening a file, you start in Normal mode. Press i to switch to Insert mode, where you can type text.\nTo return to Normal mode, press Esc.\nYou can go up down left and right in the document by either using arrow keys or using h,j,k,l keys (right,down,up,left).\n\nSaving and Exiting:\n\nTo save changes, type :w and press Enter.\nTo exit Vim, type :q and press Enter. If you want to save and exit simultaneously, type :wq."
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#ranger",
+    "href": "posts/Installing-Dependencies.html#ranger",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Ranger",
+    "text": "Ranger\nRanger is a cli file manager which you can use to navigate through files easily.\nTo install and use Ranger, a VIM-inspired file manager, in Windows Subsystem for Linux (WSL), follow these detailed steps:"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#installation-steps",
+    "href": "posts/Installing-Dependencies.html#installation-steps",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Installation Steps",
+    "text": "Installation Steps\n\nOpen WSL Terminal:\n\nLaunch your WSL terminal\n\nInstall Prerequisites:\n\nUpdate the package list and install the necessary packages (make, git, and vim) by running:\nsudo apt update\nsudo apt install make git vim -y\n\nInstall Ranger:\nsudo apt install ranger -y\nConfigure Ranger:\n\nRun Ranger once to create the configuration directory:\nranger"
+  },
+  {
+    "objectID": "posts/Installing-Dependencies.html#using-ranger",
+    "href": "posts/Installing-Dependencies.html#using-ranger",
+    "title": "How to setup WSL and Python for fastAI",
+    "section": "Using Ranger",
+    "text": "Using Ranger\n\nLaunching Ranger:\n\nStart Ranger by typing:\nranger\n\nInterface Overview:\n\nThe interface is divided into three columns:\n\nLeft Column: Displays the parent directory.\nMiddle Column: Shows contents of the current directory.\nRight Column: Provides a preview of the selected file or folder.\n\n\nBasic Navigation:\n\nUse the following keys to navigate:\n\nArrow keys or h, j, k, l for left, down, up, and right respectively.\nEnter to open a file or directory.\nq to quit.\n\n\n\n\nCopying, Pasting, and Deleting Files\n\nCopying Files:\n\nTo copy a file or directory, navigate to it and press yy (yank).\nTo copy multiple files, select them using Space and then press yy.\n\nPasting Files:\n\nNavigate to the destination directory and press p to paste the copied files.\n\nDeleting Files:\n\nTo delete a file or directory, navigate to it and press dd (delete).\nConfirm the deletion when prompted."
   },
   {
     "objectID": "posts/Lesson-1-Making-a-Cyclist-recogniser.html",
@@ -131,125 +334,6 @@
     "title": "Lesson 1: Vision models and Fundamentals",
     "section": "Collaborative Filtering",
     "text": "Collaborative Filtering\nCollaborative filtering is the basis of most recommandation systems today. From your youtube recommandation to the recommandations you see in spotify.\nIt works by finding which users liked which products and then it use that to guess what other product smilar user liked and based on those smilar users what users might like.\nNote that here Similar Users don’t mean similar demographically but similar in sense that those people liked the same kind of product that you liked.\n\n1. Import the necessary modules:\nfrom fastai.collab import *\n\nThis imports everything from the fastai.collab module, which provides tools for collaborative filtering and recommendation systems.\n\n\n\n2. Download and extract sample data:\npath = untar_data(URLs.ML_SAMPLE)\n\nAgain we are downloading and extracting data here\nURLs.ML_SAMPLE points to a small sample dataset from the MovieLens dataset, commonly used in recommendation system experiments.\n\n\n\n3. Create data loaders for collaborative filtering:\ndls = CollabDataLoaders.from_csv(path/'ratings.csv')\n\nCollabDataLoaders.from_csv reads a CSV file containing user-item interaction data (e.g., user ratings for movies) to create a data loader.\npath/'ratings.csv' specifies the path to the CSV file that contains the ratings dataset.\nThe dls object now holds the data loaders, which manage the data used for training and validation during the model’s training process.\n\n\n\n4. Display a sample batch of data:\ndls.show_batch()\n\nThis displays a sample batch of user-item-rating triplets (e.g., a user ID, a movie ID, and the user’s rating for the movie).\n\n\n\n5. Create a collaborative filtering model:\nlearn = collab_learner(dls, y_range=(0.5,5.5))\n\ncollab_learner initializes a collaborative filtering model based on a neural network architecture.\nThe dls object is passed to define the input data.\ny_range=(0.5, 5.5) specifies the range of the target values (ratings), helping the model output predictions in the expected range.\n\n\n\n6. Train the model with fine-tuning:\nlearn.fine_tune(10)\n\nfine_tune trains the model for a specified number of epochs—in this case, 10 epochs.\nThe model first uses a pre-trained embedding (if available) and then fine-tunes it on the given dataset.\n\n\n\n7. Display the results:\nlearn.show_results()\n\nThis method shows the predictions made by the model alongside the actual ratings from the test dataset.\nIt provides an intuitive way to evaluate the model’s performance by comparing predicted and actual ratings."
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html",
-    "href": "posts/Installing-Dependencies.html",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "",
-    "text": "WSL implies for Windows Subsystem for Linux (WSL), where you can run a Linux environment on your Windows machine without the hassle of dual-booting or setting up a virtual machine. This guide will take you through the steps to install WSL, focusing on WSL 2, which is faster, better, and more compatible than its predecessor.\nThe basic prerequisits are that You need Windows 10 version 2004 or higher (Build 19041 and above) or Windows 11. If you’re still rocking an older version, it might be time for an upgrade—like swapping out your flip phone for a smartphone!\nIf you get any error related to virtualization. You need to have virtualization enabled which you can do by enabling Hyper V in your device\n\n\nOpen PowerShell as Administrator: Search for “PowerShell” in the Start menu. Right-click on it and select “Run as administrator”. If you get intimidated by the black screen don’t panik you are inside terminal which helps us to execute commands. More on it later! Run the Installation Command: In the PowerShell window, type the following command and press Enter\nwsl --install\nThis command will enable all the necessary features for WSL, download the Linux Kernel, and install Ubuntu as your default distribution. A restart may be required.\nIf ubuntu is not your cup of tea then you can choose another distribution by\nwsl --install -d Debian\nfor debian\n\n\n\nAfter installation, launch your installed Linux distribution from the Start menu\nYou’ll be prompted to create a username and password. Choose wisely this is your secret identity! Remember, while typing your password, nothing will appear on the screen; this is normal behavior in Linux. It’s not broken; it’s just shy.\n\n\n\nNow that you’ve got your Linux environment set up, let’s make sure it’s up to date: you can do that by just typing\nsudo apt update\nsudo apt upgrade"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-1-enable-wsl",
-    "href": "posts/Installing-Dependencies.html#step-1-enable-wsl",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "",
-    "text": "Open PowerShell as Administrator: Search for “PowerShell” in the Start menu. Right-click on it and select “Run as administrator”. If you get intimidated by the black screen don’t panik you are inside terminal which helps us to execute commands. More on it later! Run the Installation Command: In the PowerShell window, type the following command and press Enter\nwsl --install\nThis command will enable all the necessary features for WSL, download the Linux Kernel, and install Ubuntu as your default distribution. A restart may be required.\nIf ubuntu is not your cup of tea then you can choose another distribution by\nwsl --install -d Debian\nfor debian"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-2-make-a-user-account",
-    "href": "posts/Installing-Dependencies.html#step-2-make-a-user-account",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "",
-    "text": "After installation, launch your installed Linux distribution from the Start menu\nYou’ll be prompted to create a username and password. Choose wisely this is your secret identity! Remember, while typing your password, nothing will appear on the screen; this is normal behavior in Linux. It’s not broken; it’s just shy."
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-4-update-the-system",
-    "href": "posts/Installing-Dependencies.html#step-4-update-the-system",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "",
-    "text": "Now that you’ve got your Linux environment set up, let’s make sure it’s up to date: you can do that by just typing\nsudo apt update\nsudo apt upgrade"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#some-basic-definitions-and-tools-handy-in-cli",
-    "href": "posts/Installing-Dependencies.html#some-basic-definitions-and-tools-handy-in-cli",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Some basic definitions and tools handy in cli",
-    "text": "Some basic definitions and tools handy in cli\nSo here are some popular commands and definitions which we need to keep in mind while we use CLI\ndirectory - for most cases directory is your ‘folder’ we can store different files and directories in a directory.\nls : Lists the contents of a directory. Use options like -a for hidden files or -l for detailed information.\ncd [directory]: Changes the current directory to the specified one. Use cd .. to go back\nmkdir [dirname]: Creates a new directory with the specified name.\nrm -rf [dirname] : Removes a directory and everything in it. This is done without confirmation so know what you are doing"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-1-install-wget-in-you-system",
-    "href": "posts/Installing-Dependencies.html#step-1-install-wget-in-you-system",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 1: Install wget in you system",
-    "text": "Step 1: Install wget in you system\nyou can do so by executing -\nsudo apt install wget"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-2-download-the-setup-script-for-miniforge",
-    "href": "posts/Installing-Dependencies.html#step-2-download-the-setup-script-for-miniforge",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 2: Download the setup script for miniforge",
-    "text": "Step 2: Download the setup script for miniforge\nyou can do that by following these commands\n\nfor x86_64\nwget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh\n\n\nfor arm\nwget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh\nthis will download the Miniforge installer in your WSL"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-3-install-miniforge-in-your-wsl",
-    "href": "posts/Installing-Dependencies.html#step-3-install-miniforge-in-your-wsl",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 3: Install miniforge in your WSL",
-    "text": "Step 3: Install miniforge in your WSL\nexecute the following command -\n\nFor x86_64\nbash Miniforge3-Linux-x86_64.sh\n\n\nFor Arm\nbash Miniforge3-Linux-aarch64.sh\nA simple setup will appear which will ask you to accept the licence agreement\nThen a prompt will appear telling you that setup will install miniforge in your home directory say yes to it\nAnd then miniforge will install not only python but a whole bunch of libraries which will come handy to us later.\nrestart you shell by executing bash to make it initialize miniforge"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-4-agree-to-initialize-it",
-    "href": "posts/Installing-Dependencies.html#step-4-agree-to-initialize-it",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 4: Agree to initialize it",
-    "text": "Step 4: Agree to initialize it\nIt will ask you if you want to initialize it whenever you start your machine and say yes to it.\nWhat it will do is that it will execute python everytime we launch wsl"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#mamba-and-conda",
-    "href": "posts/Installing-Dependencies.html#mamba-and-conda",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Mamba and conda",
-    "text": "Mamba and conda\nMamba and Conda are both powerful tools used for package and environment management in Python. They install everything we need for python and help us create virtual environments. This brings us to - ## Step 5: Enable virtual environment\nA virtual environment is a self-contained directory that allows you to manage dependencies for different projects without stepping on each other’s toes. It will help seperate python we need with the system python\nTo create a virtual environment just execute:\nmamba create -n fastai_env python=3.9\nthis will create a python virtual environment\nbut that’s not all we also need to activate it for it to work this is done by executing\nmamba activate fastai_env\n\nA pro tip - You can activate the virtual environment everytime you want by putting it in your .bashrc file. You can do that by\n\nnano .bashrc\nthis opens a text editor which we will use to edit files. Edit it by adding mamba activate fastai_env at the end of the file.\nthen press ctrl + x to exit and y to save the file."
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-6-installing-ipython-and-jupyter-lab",
-    "href": "posts/Installing-Dependencies.html#step-6-installing-ipython-and-jupyter-lab",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 6: Installing ipython and jupyter lab",
-    "text": "Step 6: Installing ipython and jupyter lab\n\nNeed for these tools\nIf you’re ready to kick your AI game up a notch, you need to get cozy with IPython, JupyterLab, nbdev. We have so many good reasons to use these tools\nWe will use Ipython because\n\nIt helps us to display media like Images, Videos etc\nIPython includes special commands (prefixed with % or %%) that allow you to perform tasks like timing execution or running shell commands seamlessly.\nWith improved tracebacks and debugging capabilities, it makes troubleshooting easier.\n\nWe will use Jupyter Lab because -\n\nMulti document UI - Open multiple notebooks, text files, and terminals all at once. You can juggle your projects too. No more switching tabs.\nExtensions Galore: Want to customize your experience? JupyterLab supports extensions that let you add new features or integrate with other tools. It’s like dressing up your notebook in the latest fashion make it yours\nInteractive Widgets: Create interactive visualizations and controls right in your notebooks. Want to tweak parameters on the fly? Just slide those sliders.\n\nnbdev is Important because\n\nLiterate Programming: Write code, tests, and documentation together in Jupyter notebooks, enhancing readability and maintainability.\nAutomatic Documentation: Generate up-to-date documentation directly from your notebooks, streamlining the process of creating and maintaining libraries.\nIntegrated Testing: Write and run unit tests within your notebooks, ensuring code quality with automatic execution during builds and CI/CD processes.\n\nBasically they help is making the experiance smoother for the journey. ### Installation\nHere is the command to install these tools -\nmamba install ipython jupyterlab nbdev"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-7-install-pytorch",
-    "href": "posts/Installing-Dependencies.html#step-7-install-pytorch",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 7: Install pytorch",
-    "text": "Step 7: Install pytorch\nPyTorch is a powerful and flexible tool for deep learning and machine learning projects. Here are some of its features\n\nDynamic Computation Graphs: Allows changes to the model on-the-fly, making debugging easier.\nTensor Operations: Supports efficient tensor computations with GPU acceleration for faster processing.\nUser-Friendly: Intuitive and Pythonic interface, great for beginners and experienced users alike.\nRich Ecosystem: Includes libraries for building neural networks and optimization, simplifying model development.\nStrong Community: Extensive documentation and active community support for learning and troubleshooting.\n\n\nInstallation\nHere is how to get it installed -\n\nFor devices with Nvidia GPU - if your device have an Nvidia GPU then you can install pytorch with CUDA support by executing following command -\n\nmamba install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia\nYou will also need to install the cuda toolkit for pytorch to work. You can do it by executing -\n\nwget https://developer.download.nvidia.com/compute/cuda/12.6.2/local_installers/cuda_12.6.2_560.35.03_linux.run\nThen run\nsudo sh cuda_12.6.2_560.35.03_linux.run\n\nFor devices with integrated graphics - If you are poor student like me and have device with integrated graphics then you should install pytorch by using following command -\n\nmamba install pytorch torchvision torchaudio cpuonly -c pytorch"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#step-8-install-fastai",
-    "href": "posts/Installing-Dependencies.html#step-8-install-fastai",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Step 8: Install FastAI",
-    "text": "Step 8: Install FastAI\nFast AI will be the main library we will be working with. It is designed to make deep learning accessible to everyone, regardless of their coding experience. It is is built on top of PyTorch designed to make the complex realm of artificial intelligence as approachable as your favorite recipe for instant noodles.\n\nInstallation\nTo install it just execute this command in your terminal -\nmamba install -c fastai fastai\nAnd you have successfully installed the tools required for the course."
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#vim",
-    "href": "posts/Installing-Dependencies.html#vim",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Vim",
-    "text": "Vim\nVim is the most supereme cli text editor that one can use in linux. Here is how to install and use it\n\nOpen WSL Terminal:\n\nLaunch your WSL terminal.\n\nUpdate Package List:\n\nBefore installing any software, update the package list by running:\nsudo apt update\n\nInstall Vim:\n\nInstall Vim by executing the following command:\nsudo apt install vim -y\nThis command retrieves and installs Vim along with its necessary components.\n\nLaunching Vim:\n\nTo create or edit a file, use the command:\nvim filename.txt\nReplace filename.txt with your desired file name. If the file does not exist, Vim will create it.\n\nBasic Navigation and Editing:\n\nUpon opening a file, you start in Normal mode. Press i to switch to Insert mode, where you can type text.\nTo return to Normal mode, press Esc.\nYou can go up down left and right in the document by either using arrow keys or using h,j,k,l keys (right,down,up,left).\n\nSaving and Exiting:\n\nTo save changes, type :w and press Enter.\nTo exit Vim, type :q and press Enter. If you want to save and exit simultaneously, type :wq."
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#ranger",
-    "href": "posts/Installing-Dependencies.html#ranger",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Ranger",
-    "text": "Ranger\nRanger is a cli file manager which you can use to navigate through files easily.\nTo install and use Ranger, a VIM-inspired file manager, in Windows Subsystem for Linux (WSL), follow these detailed steps:"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#installation-steps",
-    "href": "posts/Installing-Dependencies.html#installation-steps",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Installation Steps",
-    "text": "Installation Steps\n\nOpen WSL Terminal:\n\nLaunch your WSL terminal\n\nInstall Prerequisites:\n\nUpdate the package list and install the necessary packages (make, git, and vim) by running:\nsudo apt update\nsudo apt install make git vim -y\n\nInstall Ranger:\nsudo apt install ranger -y\nConfigure Ranger:\n\nRun Ranger once to create the configuration directory:\nranger"
-  },
-  {
-    "objectID": "posts/Installing-Dependencies.html#using-ranger",
-    "href": "posts/Installing-Dependencies.html#using-ranger",
-    "title": "How to setup WSL and Python for fastAI",
-    "section": "Using Ranger",
-    "text": "Using Ranger\n\nLaunching Ranger:\n\nStart Ranger by typing:\nranger\n\nInterface Overview:\n\nThe interface is divided into three columns:\n\nLeft Column: Displays the parent directory.\nMiddle Column: Shows contents of the current directory.\nRight Column: Provides a preview of the selected file or folder.\n\n\nBasic Navigation:\n\nUse the following keys to navigate:\n\nArrow keys or h, j, k, l for left, down, up, and right respectively.\nEnter to open a file or directory.\nq to quit.\n\n\n\n\nCopying, Pasting, and Deleting Files\n\nCopying Files:\n\nTo copy a file or directory, navigate to it and press yy (yank).\nTo copy multiple files, select them using Space and then press yy.\n\nPasting Files:\n\nNavigate to the destination directory and press p to paste the copied files.\n\nDeleting Files:\n\nTo delete a file or directory, navigate to it and press dd (delete).\nConfirm the deletion when prompted."
   },
   {
     "objectID": "about.html",
